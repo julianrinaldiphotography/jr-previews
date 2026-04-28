@@ -1,0 +1,1870 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#FFFFFF" />
+<title>Julian Rinaldi — Wedding Photography 2026/27</title>
+<meta name="description" content="A boutique photo studio for the modern romantic. 2026/27 packages, additions and bookings." />
+<link rel="icon" type="image/svg+xml" href="J-favicon.svg" />
+<style>
+  /* ────────────────────────────────────────────────────────────────
+     IDENTITY VOL. 03 — chassis
+     Pure white, pure black, NHG Display + Text, neon on interaction only.
+     ──────────────────────────────────────────────────────────────── */
+
+  @font-face {
+    font-family: 'NHG Display';
+    src: local('NeueHaasGroteskDisplayPro-75Bd'),
+         local('Neue Haas Grotesk Display Pro 75 Bold'),
+         local('NHaasGroteskDSPro-75Bd');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHG Display';
+    src: local('NeueHaasGroteskDisplayPro-65Md'),
+         local('Neue Haas Grotesk Display Pro 65 Medium'),
+         local('NHaasGroteskDSPro-65Md');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHG Text';
+    src: local('NeueHaasGroteskTextPro-55Rg'),
+         local('Neue Haas Grotesk Text Pro 55 Roman'),
+         local('NHaasGroteskTXPro-55Rg');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHG Text';
+    src: local('NeueHaasGroteskTextPro-65Md'),
+         local('Neue Haas Grotesk Text Pro 65 Medium'),
+         local('NHaasGroteskTXPro-65Md');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+
+  :root {
+    --white: #FFFFFF;
+    --black: #000000;
+    --neon:  #F0F788;
+    --rule:  rgba(0,0,0,1);
+    --rule-soft: rgba(0,0,0,0.12);
+    --pad-x: clamp(20px, 4vw, 56px);
+    --gap-y: clamp(72px, 10vh, 144px);
+    --display: 'NHG Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --text:    'NHG Text', 'NHG Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-io: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* No italics, ever — kill the defaults */
+  em, i, cite, address, dfn, var { font-style: normal; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--text);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    overflow-x: hidden;
+    padding-bottom: 88px; /* clearance for sticky build bar */
+  }
+
+  ::selection { background: var(--neon); color: var(--black); }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Reusable type scales — all displayed copy is uppercase */
+  .display, .eyebrow, .label, .price, .stamp, .meta-bar, .nav-link,
+  .pkg-name, .pkg-price, .add-name, .add-price, .build-total, .btn {
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .eyebrow {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+
+  .stamp {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     META BAR — top
+     ──────────────────────────────────────────────────────────────── */
+  .meta-bar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 16px var(--pad-x);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid var(--rule-soft);
+    font-family: var(--display);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    font-weight: 500;
+  }
+
+  .j-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 28px; height: 28px;
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 1;
+    transition: background 0.3s var(--ease);
+  }
+  .j-mark:hover { background: var(--neon); color: var(--black); }
+  .j-mark span { transform: translateY(1px); }
+
+  .meta-nav {
+    display: flex;
+    gap: clamp(16px, 2.4vw, 32px);
+    justify-content: center;
+    list-style: none;
+  }
+  .meta-nav a {
+    position: relative;
+    padding: 4px 0;
+    transition: color 0.3s var(--ease);
+  }
+  .meta-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--neon);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+  .meta-nav a:hover::after,
+  .meta-nav a.active::after { transform: scaleX(1); }
+  .meta-nav a.active { color: var(--black); }
+
+  .meta-right {
+    text-align: right;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 760px) {
+    .meta-nav { display: none; }
+    .meta-right { display: none; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     SECTION SCAFFOLD
+     ──────────────────────────────────────────────────────────────── */
+  section {
+    padding: var(--gap-y) var(--pad-x);
+    position: relative;
+  }
+  section .page-no {
+    position: absolute;
+    top: 24px;
+    right: var(--pad-x);
+    color: var(--black);
+    transition: color 0.3s var(--ease);
+  }
+  section:hover .page-no { color: var(--neon); }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    padding-bottom: 24px;
+    margin-bottom: 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-head .num {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .section-head .title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(24px, 3.2vw, 40px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  @media (max-width: 640px) {
+    .section-head { grid-template-columns: 64px 1fr; gap: 16px; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     HERO — cover
+     ──────────────────────────────────────────────────────────────── */
+  .hero {
+    padding: 0;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 88vh;
+  }
+  .hero-image {
+    background: var(--black) url('AGS-3-web.jpg') center/cover no-repeat;
+  }
+  .hero-copy {
+    padding: clamp(40px, 8vh, 96px) var(--pad-x);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+    background: var(--white);
+  }
+  .hero-eyebrow {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .hero-eyebrow span:last-child { opacity: 0.55; }
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(56px, 9vw, 144px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-top: auto;
+  }
+  .hero h1 .small {
+    display: block;
+    font-size: clamp(14px, 1.4vw, 18px);
+    letter-spacing: 0.06em;
+    margin-top: 24px;
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: 32ch;
+  }
+  .hero-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 24px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .hero-foot a {
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s var(--ease);
+  }
+  .hero-foot a:hover { border-bottom-color: var(--neon); }
+
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; min-height: auto; }
+    .hero-image { aspect-ratio: 4/5; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     ABOUT + ETHOS
+     ──────────────────────────────────────────────────────────────── */
+  .about-feature {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: stretch;
+  }
+  .about-feature figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .about-feature .photo {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    background: #f4f4f4 url('julian-isabella.webp') center/cover no-repeat;
+    display: block;
+  }
+  .about-feature figcaption {
+    margin-top: 16px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .about-text {
+    display: grid;
+    gap: 28px;
+    align-content: start;
+    padding-top: 8px;
+  }
+  .about-text .label {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .about-text .lede {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(24px, 3.2vw, 40px);
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    max-width: 18ch;
+  }
+  .about-text p {
+    font-family: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    max-width: 58ch;
+  }
+  @media (max-width: 900px) {
+    .about-feature { grid-template-columns: 1fr; gap: 32px; }
+    .about-feature .photo { aspect-ratio: 3 / 4; }
+  }
+
+  .press-row {
+    margin-top: clamp(56px, 8vh, 96px);
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .press-logos {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    gap: clamp(24px, 3.5vw, 56px);
+    list-style: none;
+  }
+  .press-logos li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 64px;
+  }
+  .press-logos img {
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    max-height: 56px;
+    height: auto;
+    object-fit: contain;
+    object-position: left center;
+    /* Force every logo to render in pure black for editorial unity */
+    filter: brightness(0);
+    opacity: 0.82;
+    transition: opacity 0.4s var(--ease);
+  }
+  .press-logos li:hover img { opacity: 1; }
+  /* Per-logo size correction so they read at consistent visual weight */
+  .press-logos .logo-vogue img       { max-height: 34px; }
+  .press-logos .logo-gq img          { max-height: 56px; }
+  .press-logos .logo-bazaar img      { max-height: 22px; }
+  .press-logos .logo-who img         { max-height: 46px; }
+  .press-logos .logo-thewed img      { max-height: 28px; }
+
+  @media (max-width: 900px) {
+    .press-logos { grid-template-columns: repeat(3, 1fr); gap: 32px 36px; }
+  }
+  @media (max-width: 560px) {
+    .press-logos { grid-template-columns: repeat(2, 1fr); gap: 28px 32px; }
+  }
+  @media (max-width: 640px) {
+    .press-row { grid-template-columns: 64px 1fr; gap: 16px; }
+  }
+
+  .ethos {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 32px;
+    align-items: baseline;
+  }
+  .ethos .label {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .ethos p {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(22px, 3.2vw, 40px);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    max-width: 28ch;
+  }
+  @media (max-width: 640px) {
+    .ethos { grid-template-columns: 64px 1fr; gap: 16px; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     PACKAGES — selectable cards
+     ──────────────────────────────────────────────────────────────── */
+  .pkg-instructions {
+    margin-bottom: 32px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .pkg {
+    appearance: none;
+    background: var(--white);
+    color: var(--black);
+    text-align: left;
+    border: 0;
+    border-right: 1px solid var(--rule-soft);
+    padding: 40px 32px 32px;
+    font-family: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.4s var(--ease), color 0.4s var(--ease);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-height: 360px;
+  }
+  .pkg:last-child { border-right: 0; }
+  .pkg:hover { background: var(--neon); }
+  .pkg.selected { background: var(--black); color: var(--white); }
+  .pkg.selected:hover { background: var(--black); }
+  .pkg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .pkg-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+  .pkg-price {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .pkg-headline {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .pkg-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .pkg-list li {
+    padding-left: 18px;
+    position: relative;
+  }
+  .pkg-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 8px; height: 1px;
+    background: currentColor;
+  }
+  .pkg-foot {
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .pkg-foot .state::before {
+    content: 'Select';
+  }
+  .pkg.selected .pkg-foot .state::before { content: 'Selected'; }
+  .pkg .check {
+    width: 14px; height: 14px;
+    border: 1px solid currentColor;
+    display: inline-block;
+    position: relative;
+  }
+  .pkg.selected .check::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--neon);
+  }
+  .pkg .footnote {
+    font-family: var(--text);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    line-height: 1.4;
+  }
+  @media (max-width: 900px) {
+    .pkg-grid { grid-template-columns: 1fr; }
+    .pkg { border-right: 0; border-bottom: 1px solid var(--rule-soft); min-height: 0; }
+    .pkg:last-child { border-bottom: 0; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     ADDITIONS — toggle cards
+     ──────────────────────────────────────────────────────────────── */
+  .add-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .add {
+    appearance: none;
+    text-align: left;
+    background: var(--white);
+    color: var(--black);
+    border: 0;
+    border-right: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+    padding: 28px 28px 24px;
+    font-family: var(--text);
+    cursor: pointer;
+    position: relative;
+    transition: background 0.4s var(--ease), color 0.4s var(--ease);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 240px;
+  }
+  .add:nth-child(3n) { border-right: 0; }
+  .add:hover { background: var(--neon); }
+  .add.selected { background: var(--black); color: var(--white); }
+  .add.selected:hover { background: var(--black); }
+  .add-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .add-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .add-price {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 12px;
+  }
+  .add-sub {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .add-body {
+    font-family: var(--text);
+    font-size: 12px;
+    line-height: 1.55;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    max-width: 30ch;
+  }
+  .add-foot {
+    margin-top: auto;
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .add-foot .state::before { content: 'Add'; }
+  .add.selected .add-foot .state::before { content: 'Added'; }
+  .add .plus {
+    width: 14px; height: 14px;
+    position: relative;
+    display: inline-block;
+  }
+  .add .plus::before, .add .plus::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+  }
+  .add .plus::before { left: 0; right: 0; top: 50%; height: 1px; transform: translateY(-50%); }
+  .add .plus::after { top: 0; bottom: 0; left: 50%; width: 1px; transform: translateX(-50%); transition: transform 0.3s var(--ease); }
+  .add.selected .plus::after { transform: translateX(-50%) scaleY(0); }
+
+  @media (max-width: 900px) {
+    .add-grid { grid-template-columns: 1fr 1fr; }
+    .add:nth-child(3n) { border-right: 1px solid var(--rule-soft); }
+    .add:nth-child(2n) { border-right: 0; }
+  }
+  @media (max-width: 560px) {
+    .add-grid { grid-template-columns: 1fr; }
+    .add { border-right: 0 !important; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     FAQ — accordions
+     ──────────────────────────────────────────────────────────────── */
+  .faq { display: grid; }
+  .faq-item {
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .faq-item:first-child {
+    border-top: 1px solid var(--rule-soft);
+  }
+  .faq-item summary {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    padding: 28px var(--pad-x);
+    margin: 0 calc(-1 * var(--pad-x));
+    cursor: pointer;
+    list-style: none;
+    color: var(--black);
+    transition: background 0.4s var(--ease), color 0.4s var(--ease);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::marker { content: ''; }
+  .faq-q {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(17px, 2vw, 24px);
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .faq-mark {
+    width: 14px;
+    height: 14px;
+    position: relative;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+  .faq-mark::before,
+  .faq-mark::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+  }
+  .faq-mark::before {
+    left: 0; right: 0; top: 50%;
+    height: 1px;
+    transform: translateY(-50%);
+  }
+  .faq-mark::after {
+    top: 0; bottom: 0; left: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+    transition: transform 0.4s var(--ease);
+  }
+  .faq-item[open] .faq-mark::after {
+    transform: translateX(-50%) scaleY(0);
+  }
+  .faq-item summary:hover {
+    background: var(--neon);
+  }
+  .faq-answer {
+    padding: 0 0 32px 0;
+    max-width: 72ch;
+  }
+  .faq-answer p {
+    font-family: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .faq-answer p + p { margin-top: 14px; }
+
+  /* ────────────────────────────────────────────────────────────────
+     YOUR BUILD — summary + form
+     ──────────────────────────────────────────────────────────────── */
+  #build {
+    background: var(--black);
+    color: var(--white);
+    border-bottom: 0;
+  }
+  #build .section-head { border-bottom-color: var(--white); }
+  #build .page-no { color: var(--white); }
+  #build:hover .page-no { color: var(--neon); }
+
+  .build-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .build-wrap { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  .build-summary {
+    padding: 0;
+  }
+  .build-line {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .build-line .name-cell { display: grid; gap: 4px; }
+  .build-line .name-sub {
+    font-family: var(--text);
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    opacity: 0.55;
+  }
+  .build-line .remove {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    opacity: 0.55;
+    padding: 0;
+    transition: color 0.3s var(--ease), opacity 0.3s var(--ease);
+  }
+  .build-line .remove:hover { color: var(--neon); opacity: 1; }
+  .build-empty {
+    padding: 32px 0;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .build-total-row {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--white);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .build-total-row .label {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .build-total {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 48px);
+    letter-spacing: -0.01em;
+  }
+
+  .build-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .reset-btn {
+    appearance: none;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.35);
+    color: var(--white);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 12px 18px;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .reset-btn:hover {
+    border-color: var(--neon);
+    color: var(--neon);
+  }
+  .reset-btn.confirming {
+    background: var(--neon);
+    border-color: var(--neon);
+    color: var(--black);
+  }
+  .reset-btn[hidden] { display: none; }
+
+  .build-form {
+    display: grid;
+    gap: 20px;
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+  .field label {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .field input, .field textarea {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    color: var(--white);
+    font-family: var(--text);
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 8px 0;
+    border-radius: 0;
+    transition: border-color 0.3s var(--ease);
+  }
+  .field input::placeholder, .field textarea::placeholder {
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .field input:focus, .field textarea:focus {
+    outline: 0;
+    border-bottom-color: var(--neon);
+  }
+  .field textarea { resize: vertical; min-height: 88px; }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 560px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  .btn {
+    appearance: none;
+    cursor: pointer;
+    border: 1px solid var(--white);
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    padding: 22px 24px;
+    text-transform: uppercase;
+    transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease);
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .btn:hover {
+    background: var(--neon);
+    border-color: var(--neon);
+    color: var(--black);
+  }
+  .btn .arrow {
+    display: inline-block;
+    transition: transform 0.4s var(--ease);
+  }
+  .btn:hover .arrow { transform: translateX(6px); }
+  .btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .btn:disabled:hover {
+    background: var(--white); border-color: var(--white); color: var(--black);
+  }
+
+  .build-fineprint {
+    margin-top: 16px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    line-height: 1.6;
+    max-width: 52ch;
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     STICKY BUILD BAR — bottom
+     ──────────────────────────────────────────────────────────────── */
+  .build-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 70;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 18px var(--pad-x);
+    background: var(--white);
+    border-top: 1px solid var(--rule);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transform: translateY(100%);
+    transition: transform 0.5s var(--ease);
+  }
+  .build-bar.show { transform: translateY(0); }
+  .build-bar .lhs {
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  .build-bar .total {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+  .build-bar .count { opacity: 0.55; }
+  .build-bar .review {
+    appearance: none;
+    border: 1px solid var(--black);
+    background: var(--black);
+    color: var(--white);
+    padding: 12px 20px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .build-bar .review:hover {
+    background: var(--neon); color: var(--black); border-color: var(--neon);
+  }
+  @media (max-width: 560px) {
+    .build-bar { grid-template-columns: 1fr auto; gap: 12px; padding: 12px var(--pad-x); }
+    .build-bar .center { display: none; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     FOOTER
+     ──────────────────────────────────────────────────────────────── */
+  footer {
+    padding: 40px var(--pad-x) 56px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: center;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  footer .right { text-align: right; opacity: 0.55; }
+  @media (max-width: 640px) {
+    footer { grid-template-columns: 1fr; text-align: left; }
+    footer .right { text-align: left; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     CUSTOM CURSOR — desktop only, neon dot
+     ──────────────────────────────────────────────────────────────── */
+  @media (hover: hover) and (pointer: fine) {
+    body.has-cursor { cursor: none; }
+    body.has-cursor a, body.has-cursor button, body.has-cursor input, body.has-cursor textarea { cursor: none; }
+    .cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: var(--neon);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s var(--ease), height 0.25s var(--ease), background 0.25s var(--ease);
+      mix-blend-mode: difference;
+    }
+    .cursor.hover {
+      width: 28px; height: 28px;
+    }
+  }
+  @media (hover: none), (pointer: coarse) {
+    .cursor { display: none; }
+  }
+
+  /* Reveal-on-scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="cursor" aria-hidden="true"></div>
+
+  <!-- ───────── Meta bar ───────── -->
+  <header class="meta-bar">
+    <a href="#top" class="j-mark" aria-label="Julian Rinaldi"><span>J.</span></a>
+    <nav>
+      <ul class="meta-nav">
+        <li><a href="#about">About</a></li>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#additions">Additions</a></li>
+        <li><a href="#faq">FAQs</a></li>
+        <li><a href="#build">Your Build</a></li>
+      </ul>
+    </nav>
+    <div class="meta-right">Vol. 03 · 2026/27</div>
+  </header>
+
+  <main id="top">
+
+    <!-- ───────── Cover ───────── -->
+    <section class="hero" data-page="00">
+      <div class="hero-inner">
+        <div class="hero-image" role="img" aria-label="Reference photograph"></div>
+        <div class="hero-copy">
+          <div class="hero-eyebrow">
+            <span>Julian Rinaldi Photography</span>
+            <span>00 / Cover</span>
+          </div>
+          <h1>
+            Wedding<br />Photography
+            <span class="small">A boutique photo studio for the modern romantic, built for couples who read the room in fashion, not only in flowers.</span>
+          </h1>
+          <div class="hero-foot">
+            <span>2026 / 2027 Price Guide</span>
+            <a href="#packages">Begin →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── About / Press / Clientele ───────── -->
+    <section id="about" data-page="01">
+      <div class="page-no stamp">001 / 006</div>
+      <div class="section-head reveal">
+        <div class="num">01</div>
+        <div class="title">About</div>
+      </div>
+
+      <div class="about-feature reveal">
+        <figure>
+          <span class="photo" role="img" aria-label="Julian Rinaldi and Isabella"></span>
+          <figcaption>Julian &amp; Isabella · Sydney</figcaption>
+        </figure>
+        <div class="about-text">
+          <div class="label">Studio</div>
+          <div class="lede">Julian &amp; Isabella.</div>
+          <p>Julian Rinaldi Photography is a wedding &amp; event photography studio, founded in Sydney, Australia.</p>
+          <p>What started as a personal visual diary — evolved into a passion for celebrations. With the influence of fashion, our work became less about composing scenes and more about documenting events that feel intentional, honest and timeless. As our work matured, so did the rooms it entered. With over 10 years of experience, we are humbled to be published on digital and print publications, including — VOGUE, GQ, Harper's Bazaar, The Wed, WHO Magazine &amp; more. Beyond weddings, we've had the privilege of capturing high-profile events and collaborating with brands, creatives and public figures whose worlds demand precision and confidence.</p>
+          <p>Today, this passion sits at the intersection of fashion and romance. We work with a limited number of commissions each year, capturing weddings across the world on digital and film.</p>
+        </div>
+      </div>
+
+      <div class="press-row reveal">
+        <div class="label">As Featured</div>
+        <ul class="press-logos">
+          <li class="logo-vogue"><img src="press-logos/vogue.svg" alt="Vogue" /></li>
+          <li class="logo-gq"><img src="press-logos/gq.svg" alt="GQ" /></li>
+          <li class="logo-bazaar"><img src="press-logos/harpers-bazaar.svg" alt="Harper's Bazaar" /></li>
+          <li class="logo-who"><img src="press-logos/who.svg" alt="WHO Magazine" /></li>
+          <li class="logo-thewed"><img src="press-logos/thewed.svg" alt="The Wed" /></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ───────── Packages ───────── -->
+    <section id="packages" data-page="02">
+      <div class="page-no stamp">002 / 006</div>
+      <div class="section-head reveal">
+        <div class="num">02</div>
+        <div class="title">Our Packages</div>
+      </div>
+
+      <div class="pkg-instructions reveal">Select one — click to choose your coverage.</div>
+
+      <div class="pkg-grid reveal">
+        <button type="button" class="pkg" data-id="pkg-1" data-name="Package 1" data-price="4550" data-sub="8 hrs · 1 photographer">
+          <div class="pkg-head">
+            <div class="pkg-name">Package 1</div>
+            <div class="pkg-price">$4,550</div>
+          </div>
+          <div class="pkg-headline">8 Hours<br />1 Photographer</div>
+          <ul class="pkg-list">
+            <li>8 Hours Coverage</li>
+            <li>1 Lead Photographer</li>
+            <li>High Resolution Images</li>
+            <li>Mix of Colour + B&amp;W</li>
+            <li>Personalised Online Gallery</li>
+          </ul>
+          <div class="pkg-foot">
+            <span class="state"></span>
+            <span class="check" aria-hidden="true"></span>
+          </div>
+        </button>
+
+        <button type="button" class="pkg" data-id="pkg-2" data-name="Package 2" data-price="5550" data-sub="10 hrs · 2 photographers">
+          <div class="pkg-head">
+            <div class="pkg-name">Package 2</div>
+            <div class="pkg-price">$5,550</div>
+          </div>
+          <div class="pkg-headline">10 Hours<br />2 Photographers</div>
+          <ul class="pkg-list">
+            <li>10 Hours Coverage</li>
+            <li>2 Photographers*</li>
+            <li>High Resolution Images</li>
+            <li>Mix of Colour + B&amp;W</li>
+            <li>Personalised Online Gallery</li>
+          </ul>
+          <div class="footnote">* Second photographer to finish at end of location shoot.</div>
+          <div class="pkg-foot">
+            <span class="state"></span>
+            <span class="check" aria-hidden="true"></span>
+          </div>
+        </button>
+
+        <button type="button" class="pkg" data-id="pkg-3" data-name="Package 3" data-price="6250" data-sub="12 hrs · 2 photographers">
+          <div class="pkg-head">
+            <div class="pkg-name">Package 3</div>
+            <div class="pkg-price">$6,250</div>
+          </div>
+          <div class="pkg-headline">12 Hours<br />2 Photographers</div>
+          <ul class="pkg-list">
+            <li>12 Hours Coverage</li>
+            <li>2 Photographers*</li>
+            <li>High Resolution Images</li>
+            <li>Mix of Colour + B&amp;W</li>
+            <li>Personalised Online Gallery</li>
+          </ul>
+          <div class="footnote">* Second photographer to finish at end of location shoot.</div>
+          <div class="pkg-foot">
+            <span class="state"></span>
+            <span class="check" aria-hidden="true"></span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- ───────── Additions ───────── -->
+    <section id="additions" data-page="03">
+      <div class="page-no stamp">003 / 006</div>
+      <div class="section-head reveal">
+        <div class="num">03</div>
+        <div class="title">Additions</div>
+      </div>
+
+      <div class="pkg-instructions reveal">Select any — click to add or remove.</div>
+
+      <div class="add-grid reveal">
+        <button type="button" class="add" data-id="add-preshoot" data-name="Wedding Preshoot" data-price="1250" data-sub="1–2 hrs · 1 photographer">
+          <div class="add-head">
+            <div class="add-name">Wedding Preshoot</div>
+            <div class="add-price">$1,250</div>
+          </div>
+          <div class="add-sub">1–2 hrs coverage</div>
+          <div class="add-body">A preshoot ahead of the wedding — one photographer, online gallery, colour and B&amp;W mix.</div>
+          <div class="add-foot">
+            <span class="state"></span>
+            <span class="plus" aria-hidden="true"></span>
+          </div>
+        </button>
+
+        <button type="button" class="add" data-id="add-previews" data-name="Wedding Previews" data-price="550" data-sub="50–100 frames · 1–2 BD">
+          <div class="add-head">
+            <div class="add-name">Wedding Previews</div>
+            <div class="add-price">$550</div>
+          </div>
+          <div class="add-sub">50–100 frames</div>
+          <div class="add-body">A studio-curated edit of 50 to 100 frames, delivered within 1–2 business days of the wedding.</div>
+          <div class="add-foot">
+            <span class="state"></span>
+            <span class="plus" aria-hidden="true"></span>
+          </div>
+        </button>
+
+        <button type="button" class="add" data-id="add-film" data-name="Film Photography" data-price="750" data-sub="From — Portra-400">
+          <div class="add-head">
+            <div class="add-name">Film Photography</div>
+            <div class="add-price">From $750</div>
+          </div>
+          <div class="add-sub">Portra-400</div>
+          <div class="add-body">A roll-by-roll edit of 25 to 50 frames, shot on film alongside the digital. Pricing varies by stock.</div>
+          <div class="add-foot">
+            <span class="state"></span>
+            <span class="plus" aria-hidden="true"></span>
+          </div>
+        </button>
+
+        <button type="button" class="add" data-id="add-priority" data-name="Priority Wedding Edit" data-price="1200" data-sub="Full gallery in 1–2 weeks">
+          <div class="add-head">
+            <div class="add-name">Priority Edit</div>
+            <div class="add-price">$1,200</div>
+          </div>
+          <div class="add-sub">1–2 weeks</div>
+          <div class="add-body">The full gallery delivered in 1–2 weeks, in place of the standard 6–8.</div>
+          <div class="add-foot">
+            <span class="state"></span>
+            <span class="plus" aria-hidden="true"></span>
+          </div>
+        </button>
+
+        <button type="button" class="add" data-id="add-frame" data-name="Framed Print" data-price="1050" data-sub="20&quot; × 30&quot;">
+          <div class="add-head">
+            <div class="add-name">Framed Print</div>
+            <div class="add-price">$1,050</div>
+          </div>
+          <div class="add-sub">20" × 30"</div>
+          <div class="add-body">A framed print, finished in black, wooden or white.</div>
+          <div class="add-foot">
+            <span class="state"></span>
+            <span class="plus" aria-hidden="true"></span>
+          </div>
+        </button>
+
+        <button type="button" class="add" data-id="add-album" data-name="Wedding Album" data-price="1750" data-sub="Hand-bound · linen slipcase">
+          <div class="add-head">
+            <div class="add-name">Wedding Album</div>
+            <div class="add-price">$1,750</div>
+          </div>
+          <div class="add-sub">Hand-bound</div>
+          <div class="add-body">A hand-bound album, sequenced like an editorial spread. Heavy stock, foil-stamped cover, linen slipcase.</div>
+          <div class="add-foot">
+            <span class="state"></span>
+            <span class="plus" aria-hidden="true"></span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- ───────── FAQ ───────── -->
+    <section id="faq" data-page="04">
+      <div class="page-no stamp">004 / 006</div>
+      <div class="section-head reveal">
+        <div class="num">04</div>
+        <div class="title">FAQs</div>
+      </div>
+
+      <div class="pkg-instructions reveal">Tap a question to expand.</div>
+
+      <div class="faq reveal">
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-q">How far in advance should we book?</span>
+            <span class="faq-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer">
+            <p>We accept a limited number of weddings each year. For Sydney peak season — October through April — most dates fill nine to twelve months ahead. Earlier is safer.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-q">Do you travel?</span>
+            <span class="faq-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer">
+            <p>Yes. Sydney is home, and we photograph interstate and internationally on commission. From July 2027 we run a dedicated European summer block — July through August — for weddings across Italy, France and beyond. Travel is quoted separately to the package.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-q">How many images do we receive?</span>
+            <span class="faq-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer">
+            <p>The number isn't fixed — we deliver every frame that earns a place in the gallery. As a guide, an eight-hour wedding typically yields four to six hundred finished images. We over-shoot, then edit hard.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-q">When do we receive our gallery?</span>
+            <span class="faq-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer">
+            <p>The full gallery is delivered within six to eight weeks. Add Wedding Previews for a studio-curated edit of fifty to one hundred frames within one to two business days, or Priority Edit for the full gallery in one to two weeks.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-q">Do you shoot on film?</span>
+            <span class="faq-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer">
+            <p>Yes, as an addition alongside the digital. Twenty-five to fifty frames per wedding, on Portra-400 by default. Pricing varies by stock; available with any package.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-q">Do we receive the raw files?</span>
+            <span class="faq-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer">
+            <p>We don't release raw files. The edit — colour, sequencing, restraint — is part of the work. You receive a finished gallery in colour and black &amp; white, sequenced as a complete story.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span class="faq-q">What secures the date?</span>
+            <span class="faq-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer">
+            <p>A signed contract and a deposit. Until both are received, the date is held informally and offered first-come.</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ───────── Your build + form ───────── -->
+    <section id="build" data-page="05">
+      <div class="page-no stamp">005 / 006</div>
+      <div class="section-head reveal">
+        <div class="num">05</div>
+        <div class="title">Your Build</div>
+      </div>
+
+      <div class="build-wrap reveal">
+
+        <div class="build-summary" id="summary">
+          <div id="summary-lines">
+            <div class="build-empty" id="empty-state">No selections yet — start with a package.</div>
+          </div>
+          <div class="build-total-row">
+            <div class="label">Total · AUD</div>
+            <div class="build-total" id="total">$0</div>
+          </div>
+          <div class="build-actions">
+            <button type="button" class="reset-btn" id="reset-btn" hidden>Reset build</button>
+          </div>
+        </div>
+
+        <form class="build-form" id="enquiry" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-name">Your Name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required placeholder="First & last" />
+            </div>
+            <div class="field">
+              <label for="f-partner">Partner's Name</label>
+              <input id="f-partner" name="partner" type="text" placeholder="First & last" />
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required placeholder="you@email.com" />
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="Optional" />
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-date">Wedding Date</label>
+              <input id="f-date" name="date" type="date" required />
+            </div>
+            <div class="field">
+              <label for="f-venue">Venue or Location</label>
+              <input id="f-venue" name="venue" type="text" placeholder="Sydney, Italy, TBC" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-notes">Anything else?</label>
+            <textarea id="f-notes" name="notes" placeholder="Schedule, planner, references — anything that helps."></textarea>
+          </div>
+
+          <button type="submit" class="btn" id="send-btn" disabled>
+            <span>Send to studio</span>
+            <span class="arrow">→</span>
+          </button>
+          <div class="build-fineprint">
+            If you've enquired through our website, your details are pre-filled — just select a package and your email opens with your build ready to send. We reply within 1–2 business days.
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>Julian Rinaldi Photography</div>
+    <div>info@julianrinaldi.com.au</div>
+    <div class="right">© 2026 · Identity Vol. 03</div>
+  </footer>
+
+  <!-- ───────── Sticky build bar ───────── -->
+  <div class="build-bar" id="bar">
+    <div class="lhs">
+      <span>Build</span>
+      <span class="total" id="bar-total">$0</span>
+      <span class="count" id="bar-count">— select a package</span>
+    </div>
+    <div class="center"></div>
+    <button type="button" class="review" id="review-btn">
+      <span>Review</span>
+      <span>↓</span>
+    </button>
+  </div>
+
+<script>
+(() => {
+  // ──────────────────────────────────────────────────────────────
+  // STATE
+  // ──────────────────────────────────────────────────────────────
+  const STORE_KEY = 'jrp-build-v1';
+  const state = {
+    pkg: null,        // { id, name, price, sub }
+    addons: new Map() // id -> { id, name, price, sub }
+  };
+
+  const fmt = n => '$' + Math.round(n).toLocaleString('en-AU');
+
+  // ──────────────────────────────────────────────────────────────
+  // PERSISTENCE
+  // ──────────────────────────────────────────────────────────────
+  const save = () => {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        pkg: state.pkg,
+        addons: [...state.addons.values()]
+      }));
+    } catch(_) {}
+  };
+  const load = () => {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data.pkg) state.pkg = data.pkg;
+      if (Array.isArray(data.addons)) data.addons.forEach(a => state.addons.set(a.id, a));
+    } catch(_) {}
+  };
+
+  // ──────────────────────────────────────────────────────────────
+  // SELECTORS
+  // ──────────────────────────────────────────────────────────────
+  const $pkgs = document.querySelectorAll('.pkg');
+  const $adds = document.querySelectorAll('.add');
+  const $summary = document.getElementById('summary-lines');
+  const $empty = document.getElementById('empty-state');
+  const $total = document.getElementById('total');
+  const $barTotal = document.getElementById('bar-total');
+  const $barCount = document.getElementById('bar-count');
+  const $bar = document.getElementById('bar');
+  const $review = document.getElementById('review-btn');
+  const $send = document.getElementById('send-btn');
+  const $form = document.getElementById('enquiry');
+  const $reset = document.getElementById('reset-btn');
+
+  // ──────────────────────────────────────────────────────────────
+  // ANIMATED COUNTER
+  // ──────────────────────────────────────────────────────────────
+  let lastTotal = 0;
+  const animateTotal = (next) => {
+    const start = lastTotal;
+    const delta = next - start;
+    const dur = 480;
+    const t0 = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const v = start + delta * eased;
+      $total.textContent = fmt(v);
+      $barTotal.textContent = fmt(v);
+      if (p < 1) requestAnimationFrame(tick);
+      else lastTotal = next;
+    };
+    requestAnimationFrame(tick);
+  };
+
+  // ──────────────────────────────────────────────────────────────
+  // RENDER
+  // ──────────────────────────────────────────────────────────────
+  const render = () => {
+    // Cards visual state
+    $pkgs.forEach(b => b.classList.toggle('selected', state.pkg && b.dataset.id === state.pkg.id));
+    $adds.forEach(b => b.classList.toggle('selected', state.addons.has(b.dataset.id)));
+
+    // Summary
+    const lines = [];
+    if (state.pkg) {
+      lines.push(line('package', state.pkg, false));
+    }
+    [...state.addons.values()].forEach(a => lines.push(line('addon', a, true)));
+
+    $summary.innerHTML = lines.length
+      ? lines.join('')
+      : '<div class="build-empty" id="empty-state">No selections yet — start with a package.</div>';
+
+    // Wire remove buttons
+    $summary.querySelectorAll('[data-remove]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.remove;
+        const kind = btn.dataset.kind;
+        if (kind === 'package') state.pkg = null;
+        else state.addons.delete(id);
+        save(); render();
+      });
+    });
+
+    // Total
+    let total = 0;
+    if (state.pkg) total += state.pkg.price;
+    state.addons.forEach(a => total += a.price);
+    animateTotal(total);
+
+    // Bar
+    const count = (state.pkg ? 1 : 0) + state.addons.size;
+    $barCount.textContent = state.pkg
+      ? (state.addons.size ? `${state.addons.size} addition${state.addons.size>1?'s':''}` : 'package selected')
+      : '— select a package';
+    $bar.classList.toggle('show', count > 0);
+
+    // Send button enabled only when a package is selected
+    $send.disabled = !state.pkg;
+
+    // Reset button visible only when there's something to reset
+    const hasAny = !!state.pkg || state.addons.size > 0;
+    $reset.hidden = !hasAny;
+    if (!hasAny) clearResetConfirm();
+  };
+
+  const line = (kind, item, removable) => `
+    <div class="build-line">
+      <div class="name-cell">
+        <span>${item.name}</span>
+        <span class="name-sub">${item.sub || ''}</span>
+      </div>
+      <span>${fmt(item.price)}</span>
+      <button type="button" class="remove" data-remove="${item.id}" data-kind="${kind}" aria-label="Remove ${item.name}">Remove</button>
+    </div>`;
+
+  // ──────────────────────────────────────────────────────────────
+  // EVENTS — package + add-on cards
+  // ──────────────────────────────────────────────────────────────
+  $pkgs.forEach(b => b.addEventListener('click', () => {
+    const id = b.dataset.id;
+    if (state.pkg && state.pkg.id === id) {
+      state.pkg = null; // toggle off
+    } else {
+      state.pkg = {
+        id,
+        name: b.dataset.name,
+        price: parseFloat(b.dataset.price),
+        sub: b.dataset.sub
+      };
+    }
+    save(); render();
+  }));
+
+  $adds.forEach(b => b.addEventListener('click', () => {
+    const id = b.dataset.id;
+    if (state.addons.has(id)) state.addons.delete(id);
+    else state.addons.set(id, {
+      id,
+      name: b.dataset.name,
+      price: parseFloat(b.dataset.price),
+      sub: b.dataset.sub
+    });
+    save(); render();
+  }));
+
+  // Review button — smooth scroll to build
+  $review.addEventListener('click', () => {
+    document.getElementById('build').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // ──────────────────────────────────────────────────────────────
+  // RESET — two-tap confirm
+  // ──────────────────────────────────────────────────────────────
+  let resetTimer = null;
+  const clearResetConfirm = () => {
+    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+    $reset.classList.remove('confirming');
+    $reset.textContent = 'Reset build';
+  };
+  $reset.addEventListener('click', () => {
+    if ($reset.classList.contains('confirming')) {
+      state.pkg = null;
+      state.addons.clear();
+      try { localStorage.removeItem(STORE_KEY); } catch(_) {}
+      clearResetConfirm();
+      lastTotal = 0;
+      render();
+    } else {
+      $reset.classList.add('confirming');
+      $reset.textContent = 'Tap again to confirm';
+      if (resetTimer) clearTimeout(resetTimer);
+      resetTimer = setTimeout(clearResetConfirm, 3000);
+    }
+  });
+
+  // ──────────────────────────────────────────────────────────────
+  // FORM — mailto submission
+  // ──────────────────────────────────────────────────────────────
+  $form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!state.pkg) return;
+
+    const f = new FormData($form);
+    const data = Object.fromEntries(f.entries());
+
+    if (!data.name || !data.email || !data.date) {
+      // light client-side hint — focus the first empty required field
+      ['name','email','date'].forEach(k => {
+        if (!data[k]) document.getElementById('f-' + k).focus();
+      });
+      return;
+    }
+
+    // Build human-readable email body
+    const partner = data.partner ? ` & ${data.partner}` : '';
+    const subject = `Wedding enquiry — ${data.name}${partner} — ${data.date}`;
+
+    const lines = [];
+    lines.push(`Hi Julian,`);
+    lines.push(``);
+    lines.push(`We'd like to enquire about wedding photography. Our build below.`);
+    lines.push(``);
+    lines.push(`— DETAILS —`);
+    lines.push(`Name: ${data.name}`);
+    if (data.partner) lines.push(`Partner: ${data.partner}`);
+    lines.push(`Email: ${data.email}`);
+    if (data.phone) lines.push(`Phone: ${data.phone}`);
+    lines.push(`Wedding date: ${data.date}`);
+    if (data.venue) lines.push(`Venue / location: ${data.venue}`);
+    lines.push(``);
+    lines.push(`— BUILD —`);
+    lines.push(`${state.pkg.name} (${state.pkg.sub}) — ${fmt(state.pkg.price)}`);
+    if (state.addons.size) {
+      lines.push(``);
+      lines.push(`Additions:`);
+      state.addons.forEach(a => {
+        lines.push(`· ${a.name}${a.sub ? ` (${a.sub})` : ''} — ${fmt(a.price)}`);
+      });
+    }
+    let total = state.pkg.price;
+    state.addons.forEach(a => total += a.price);
+    lines.push(``);
+    lines.push(`Total (AUD): ${fmt(total)}`);
+    if (data.notes && data.notes.trim()) {
+      lines.push(``);
+      lines.push(`— NOTES —`);
+      lines.push(data.notes.trim());
+    }
+    lines.push(``);
+    lines.push(`Thanks,`);
+    lines.push(data.name);
+
+    const body = lines.join('\r\n');
+    const href = 'mailto:info@julianrinaldi.com.au'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+
+    window.location.href = href;
+  });
+
+  // ──────────────────────────────────────────────────────────────
+  // SECTION-AWARE NAV + REVEAL
+  // ──────────────────────────────────────────────────────────────
+  const sections = document.querySelectorAll('main section[id]');
+  const navLinks = document.querySelectorAll('.meta-nav a');
+  const linkById = new Map();
+  navLinks.forEach(a => {
+    const id = a.getAttribute('href').slice(1);
+    linkById.set(id, a);
+  });
+
+  const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = linkById.get(e.target.id);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  sections.forEach(s => navObs.observe(s));
+
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ──────────────────────────────────────────────────────────────
+  // CUSTOM CURSOR
+  // ──────────────────────────────────────────────────────────────
+  const cursor = document.querySelector('.cursor');
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.body.classList.add('has-cursor');
+    let x = window.innerWidth/2, y = window.innerHeight/2;
+    let cx = x, cy = y;
+    document.addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; });
+    const lerp = () => {
+      cx += (x - cx) * 0.22;
+      cy += (y - cy) * 0.22;
+      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      requestAnimationFrame(lerp);
+    };
+    requestAnimationFrame(lerp);
+
+    const hoverables = 'a, button, input, textarea, select, [role="button"]';
+    document.querySelectorAll(hoverables).forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // FORM PRE-FILL — URL params first, then localStorage
+  // ──────────────────────────────────────────────────────────────
+  const FORM_KEY = 'jrp-form-v1';
+  const formFields = ['name', 'partner', 'email', 'phone', 'date', 'venue', 'notes'];
+
+  const fillForm = (data) => {
+    formFields.forEach(k => {
+      const el = document.getElementById('f-' + k);
+      if (el && data[k] && !el.value) el.value = data[k];
+    });
+  };
+
+  const saveFormToStorage = () => {
+    try {
+      const data = {};
+      formFields.forEach(k => {
+        const el = document.getElementById('f-' + k);
+        if (el && el.value) data[k] = el.value;
+      });
+      localStorage.setItem(FORM_KEY, JSON.stringify(data));
+    } catch(_) {}
+  };
+
+  const initFormPrefill = () => {
+    const params = new URLSearchParams(window.location.search);
+    const fromURL = {};
+    formFields.forEach(k => {
+      const v = params.get(k);
+      if (v) fromURL[k] = v.trim();
+    });
+    if (Object.keys(fromURL).length) {
+      fillForm(fromURL);
+      saveFormToStorage();
+      return;
+    }
+    try {
+      const raw = localStorage.getItem(FORM_KEY);
+      if (raw) fillForm(JSON.parse(raw));
+    } catch(_) {}
+  };
+
+  // Persist every keystroke so a refresh won't lose the lead's details
+  document.querySelectorAll('#enquiry input, #enquiry textarea').forEach(el => {
+    el.addEventListener('input', saveFormToStorage);
+  });
+
+  // Clear stored form when the lead resets the build (only the build resets, contact stays)
+  // (form is intentionally NOT cleared on reset — they keep their identity)
+
+  // ──────────────────────────────────────────────────────────────
+  // INIT
+  // ──────────────────────────────────────────────────────────────
+  load();
+  initFormPrefill();
+  render();
+})();
+</script>
+</body>
+</html>

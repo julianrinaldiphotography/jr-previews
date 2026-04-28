@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>JRP Wordmark — Trial</title>
+<style>
+  @font-face {
+    font-family: 'NHG Display';
+    src: local('NeueHaasGroteskDisplayPro-65Md'),
+         local('Neue Haas Grotesk Display Pro 65 Medium'),
+         local('NHaasGroteskDSPro-65Md');
+    font-weight: 500; font-style: normal;
+  }
+  @font-face {
+    font-family: 'NHG Display';
+    src: local('NeueHaasGroteskDisplayPro-55Rg'),
+         local('Neue Haas Grotesk Display Pro 55 Roman'),
+         local('NHaasGroteskDSPro-55Rg');
+    font-weight: 400; font-style: normal;
+  }
+  @font-face {
+    font-family: 'NHG Display';
+    src: local('NeueHaasGroteskDisplayPro-45Lt'),
+         local('Neue Haas Grotesk Display Pro 45 Lt'),
+         local('NHaasGroteskDSPro-45Lt');
+    font-weight: 300; font-style: normal;
+  }
+
+  :root {
+    --paper:   #f5ede2;
+    --ivory:   #faf6f0;
+    --ink:     #1e1c1a;
+    --black:   #000000;
+    --white:   #ffffff;
+    --oxblood: #831618;
+    --sky:     #A5CEF1;
+    --rule:    1px solid var(--ink);
+    --rule-soft: 1px solid rgba(30,28,26,0.18);
+    --page-margin: 72px;
+    --gap: 96px;
+    --f: 'NHG Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+  }
+
+  /* Wordmark base — always 65 Medium, uppercase, never italic */
+  .jrp {
+    font-family: var(--f);
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1;
+    display: inline-block;
+  }
+
+  /* Meta bar */
+  .meta {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 48px;
+    padding: 18px var(--page-margin);
+    border-bottom: var(--rule-soft);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .meta > :nth-child(2) { text-align: center; }
+  .meta > :nth-child(3) { text-align: right; }
+
+  section {
+    padding: var(--gap) var(--page-margin);
+    border-bottom: var(--rule-soft);
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    margin-bottom: 56px;
+    padding-bottom: 16px;
+    border-bottom: var(--rule);
+  }
+  .section-head .num {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+  .section-head .title {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .caption {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(30,28,26,0.55);
+    margin-top: 16px;
+  }
+
+  /* 01 — Hero scale */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .hero .jrp { font-size: 280px; letter-spacing: -0.05em; }
+  .hero .right { padding-bottom: 24px; }
+  .hero .right p {
+    font-size: 12px;
+    line-height: 1.7;
+    letter-spacing: 0.04em;
+    max-width: 36ch;
+    color: rgba(30,28,26,0.7);
+  }
+
+  /* 02 — Tracking ladder */
+  .ladder { display: grid; gap: 28px; }
+  .ladder-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 32px;
+    align-items: center;
+    border-top: var(--rule-soft);
+    padding-top: 28px;
+  }
+  .ladder-row:first-child { border-top: 0; padding-top: 0; }
+  .ladder-row .label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(30,28,26,0.55);
+  }
+  .ladder-row .jrp { font-size: 96px; }
+  .lt-tight { letter-spacing: -0.05em; }
+  .lt-snug  { letter-spacing: -0.02em; }
+  .lt-flat  { letter-spacing: 0; }
+  .lt-open  { letter-spacing: 0.04em; }
+  .lt-wide  { letter-spacing: 0.18em; }
+
+  /* 03 — Scale ladder */
+  .scale {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    gap: 56px;
+    align-items: end;
+    justify-content: start;
+  }
+  .scale .col { display: grid; gap: 12px; }
+  .scale .jrp { letter-spacing: -0.05em; }
+  .s-12 { font-size: 12px; letter-spacing: 0.06em !important; }
+  .s-24 { font-size: 24px; }
+  .s-48 { font-size: 48px; }
+  .s-96 { font-size: 96px; }
+  .s-180 { font-size: 180px; }
+
+  /* 04 — Backgrounds */
+  .bg-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .swatch {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 32px;
+    border: var(--rule-soft);
+  }
+  .swatch .jrp { font-size: 64px; letter-spacing: -0.05em; }
+  .sw-paper   { background: var(--paper);   color: var(--ink); }
+  .sw-ivory   { background: var(--ivory);   color: var(--ink); }
+  .sw-ink     { background: var(--ink);     color: var(--paper); }
+  .sw-oxblood { background: var(--oxblood); color: var(--paper); }
+  .sw-paper-ox{ background: var(--paper);   color: var(--oxblood); }
+  .sw-white   { background: var(--white);   color: var(--black); }
+  .sw-black   { background: var(--black);   color: var(--white); }
+  .sw-sky     { background: var(--sky);     color: var(--black); }
+  .swatch .name {
+    position: absolute;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-top: 0;
+  }
+  .swatch { position: relative; }
+  .swatch .name { right: 16px; bottom: 12px; }
+
+  /* 05 — Lockups */
+  .lockups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+  .lockup {
+    border: var(--rule-soft);
+    padding: 56px 48px;
+    background: var(--ivory);
+  }
+  .lockup .jrp.mark { font-size: 96px; letter-spacing: -0.05em; display: block; }
+  .lockup .name {
+    font-family: var(--f);
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(30,28,26,0.7);
+    margin-top: 16px;
+    border-top: var(--rule-soft);
+    padding-top: 16px;
+  }
+  .lockup .stack { display: inline-block; }
+  .lockup-h {
+    display: flex;
+    align-items: baseline;
+    gap: 28px;
+  }
+  .lockup-h .jrp.mark { font-size: 56px; }
+  .lockup-h .name { border: 0; padding: 0; margin: 0; }
+
+  /* 06 — Comparison vs R-mark */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: var(--rule-soft);
+  }
+  .compare > div {
+    padding: 64px 48px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .compare .left { border-right: var(--rule-soft); background: var(--ivory); }
+  .compare .right { background: var(--paper); }
+  .compare .label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(30,28,26,0.55);
+  }
+  .compare .jrp { font-size: 140px; letter-spacing: -0.05em; }
+  .compare svg { width: 140px; height: auto; display: block; }
+
+  /* 07 — In-context strips */
+  .context {
+    display: grid;
+    gap: 24px;
+  }
+  .strip {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 22px 32px;
+    border: var(--rule-soft);
+    background: var(--ivory);
+    gap: 32px;
+  }
+  .strip.dark { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .strip .left  { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; }
+  .strip .right { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; text-align: right; opacity: 0.7; }
+  .strip .jrp   { font-size: 22px; letter-spacing: -0.05em; }
+
+  /* 08 — Favicon-scale */
+  .micro {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+    gap: 32px;
+    align-items: end;
+    justify-content: start;
+  }
+  .tile {
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .tile.alt { background: var(--oxblood); }
+  .tile.light { background: var(--paper); color: var(--ink); border: var(--rule-soft); }
+  .tile.sky { background: var(--sky); color: var(--black); }
+  .tile .jrp { letter-spacing: -0.05em; font-weight: 500; }
+  .t-16  { width: 16px;  height: 16px; }
+  .t-16  .jrp { font-size: 7px; letter-spacing: 0; }
+  .t-32  { width: 32px;  height: 32px; }
+  .t-32  .jrp { font-size: 13px; }
+  .t-48  { width: 48px;  height: 48px; }
+  .t-48  .jrp { font-size: 19px; }
+  .t-64  { width: 64px;  height: 64px; }
+  .t-64  .jrp { font-size: 25px; }
+  .t-96  { width: 96px;  height: 96px; }
+  .t-96  .jrp { font-size: 38px; }
+  .t-128 { width: 128px; height: 128px; }
+  .t-128 .jrp { font-size: 52px; }
+</style>
+</head>
+<body>
+
+  <header class="meta">
+    <div>Julian Rinaldi Photography</div>
+    <div>JRP Wordmark — Trial</div>
+    <div>NHG Display · 65 Medium</div>
+  </header>
+
+  <!-- 01 — Hero -->
+  <section>
+    <div class="section-head">
+      <div class="num">01</div>
+      <div class="title">Hero — Primary Wordmark</div>
+    </div>
+    <div class="hero">
+      <div>
+        <span class="jrp">JRP.</span>
+        <div class="caption">280px · Tracking −5%</div>
+      </div>
+      <div class="right">
+        <p>Replaces the R-mark / monogram as the studio's primary identity. Set in Neue Haas Grotesk Display Pro, 65 Medium, uppercase, never italic.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Tracking ladder -->
+  <section>
+    <div class="section-head">
+      <div class="num">02</div>
+      <div class="title">Tracking — Pick a Tightness</div>
+    </div>
+    <div class="ladder">
+      <div class="ladder-row"><div class="label">−5% · Tight</div>  <span class="jrp lt-tight">JRP.</span></div>
+      <div class="ladder-row"><div class="label">−2% · Snug</div>   <span class="jrp lt-snug">JRP.</span></div>
+      <div class="ladder-row"><div class="label">0 · Flat</div>     <span class="jrp lt-flat">JRP.</span></div>
+      <div class="ladder-row"><div class="label">+4% · Open</div>   <span class="jrp lt-open">JRP.</span></div>
+      <div class="ladder-row"><div class="label">+18% · Wide</div>  <span class="jrp lt-wide">JRP.</span></div>
+    </div>
+    <div class="caption">Locked — −5% (Tight). All wordmark instances across the brand use this tracking; +18% reserved for editorial labels in headers/footers.</div>
+  </section>
+
+  <!-- 03 — Scale ladder -->
+  <section>
+    <div class="section-head">
+      <div class="num">03</div>
+      <div class="title">Scale — 12px to 180px</div>
+    </div>
+    <div class="scale">
+      <div class="col"><span class="jrp s-12">JRP.</span><div class="caption">12 · Eyebrow</div></div>
+      <div class="col"><span class="jrp s-24">JRP.</span><div class="caption">24 · Footer</div></div>
+      <div class="col"><span class="jrp s-48">JRP.</span><div class="caption">48 · Header</div></div>
+      <div class="col"><span class="jrp s-96">JRP.</span><div class="caption">96 · Section</div></div>
+      <div class="col"><span class="jrp s-180">JRP.</span><div class="caption">180 · Cover</div></div>
+    </div>
+  </section>
+
+  <!-- 04 — Backgrounds -->
+  <section>
+    <div class="section-head">
+      <div class="num">04</div>
+      <div class="title">Colour — On Brand Surfaces</div>
+    </div>
+    <div class="bg-grid">
+      <div class="swatch sw-paper">    <span class="jrp">JRP.</span><div class="name">Paper · Ink</div></div>
+      <div class="swatch sw-ivory">    <span class="jrp">JRP.</span><div class="name">Ivory · Ink</div></div>
+      <div class="swatch sw-paper-ox"> <span class="jrp">JRP.</span><div class="name">Paper · Oxblood</div></div>
+      <div class="swatch sw-oxblood">  <span class="jrp">JRP.</span><div class="name">Oxblood · Paper</div></div>
+      <div class="swatch sw-ink">      <span class="jrp">JRP.</span><div class="name">Ink · Paper</div></div>
+      <div class="swatch sw-white">    <span class="jrp">JRP.</span><div class="name">White · Black</div></div>
+      <div class="swatch sw-black">    <span class="jrp">JRP.</span><div class="name">Black · White</div></div>
+      <div class="swatch sw-sky">      <span class="jrp">JRP.</span><div class="name">Sky · Black (Vol.03)</div></div>
+    </div>
+  </section>
+
+  <!-- 05 — Lockups -->
+  <section>
+    <div class="section-head">
+      <div class="num">05</div>
+      <div class="title">Lockups — Mark + Studio Name</div>
+    </div>
+    <div class="lockups">
+      <div class="lockup">
+        <div class="stack">
+          <span class="jrp mark">JRP.</span>
+          <div class="name">Julian Rinaldi Photography</div>
+        </div>
+        <div class="caption">Stacked · primary</div>
+      </div>
+      <div class="lockup">
+        <div class="lockup-h">
+          <span class="jrp mark">JRP.</span>
+          <span class="name">Julian Rinaldi Photography</span>
+        </div>
+        <div class="caption">Horizontal · header / signature</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Comparison vs R-mark -->
+  <section>
+    <div class="section-head">
+      <div class="num">06</div>
+      <div class="title">Side-by-Side — JRP vs R-Mark</div>
+    </div>
+    <div class="compare">
+      <div class="left">
+        <div class="label">Before · R-Mark</div>
+        <svg viewBox="140 110 760 785" preserveAspectRatio="xMidYMid meet" aria-label="R-mark">
+          <g fill="#1e1c1a">
+            <path d="M 165 110 L 640 110 A 260 260 0 0 1 900 370 L 900 595 L 140 595 L 140 135 A 25 25 0 0 1 165 110 Z"/>
+            <path d="M 140 575 L 360 575 L 360 870 A 25 25 0 0 1 335 895 L 165 895 A 25 25 0 0 1 140 870 Z"/>
+            <path d="M 400 575 L 600 575 C 780 605, 900 720, 900 830 C 900 878, 840 905, 780 895 C 660 880, 560 820, 490 740 C 440 680, 410 625, 400 575 Z"/>
+          </g>
+        </svg>
+        <div class="label">Custom monogram · graphic</div>
+      </div>
+      <div class="right">
+        <div class="label">After · JRP Wordmark</div>
+        <span class="jrp">JRP.</span>
+        <div class="label">NHG Display 65 Medium · typographic</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — In-context strips -->
+  <section>
+    <div class="section-head">
+      <div class="num">07</div>
+      <div class="title">In Context — Headers, Footers, Signatures</div>
+    </div>
+    <div class="context">
+      <div class="strip">
+        <div class="left">Vol. 02 · Identity</div>
+        <span class="jrp">JRP.</span>
+        <div class="right">Sydney · 2026</div>
+      </div>
+      <div class="strip dark">
+        <div class="left">Studio</div>
+        <span class="jrp">JRP.</span>
+        <div class="right">© Julian Rinaldi Photography</div>
+      </div>
+      <div class="strip">
+        <div class="left">Image — AGS-3</div>
+        <span class="jrp">JRP.</span>
+        <div class="right">Frame 03 / 12</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 — Favicon scale -->
+  <section>
+    <div class="section-head">
+      <div class="num">08</div>
+      <div class="title">Avatar / Favicon — 16px to 128px</div>
+    </div>
+    <div class="micro">
+      <div class="tile t-16"><span class="jrp">J.</span></div>
+      <div class="tile t-32"><span class="jrp">J.</span></div>
+      <div class="tile t-48"><span class="jrp">J.</span></div>
+      <div class="tile t-64"><span class="jrp">J.</span></div>
+      <div class="tile t-96"><span class="jrp">J.</span></div>
+      <div class="tile t-128"><span class="jrp">J.</span></div>
+    </div>
+    <div class="caption">Single-letter "J." tile · favicon and avatar use only. Wordmark "JRP." reserved for sizes ≥ 24px.</div>
+  </section>
+
+</body>
+</html>
