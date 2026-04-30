@@ -9,8 +9,8 @@
 <link rel="icon" type="image/svg+xml" href="J-favicon.svg" />
 <style>
   /* ────────────────────────────────────────────────────────────────
-     IDENTITY VOL. 03 — chassis
-     Pure white, pure black, NHG Display + Text, neon on interaction only.
+     IDENTITY VOL. 04 — chassis
+     Pure white, pure black, NHG Display + Text, neon as accent only.
      ──────────────────────────────────────────────────────────────── */
 
   @font-face {
@@ -43,20 +43,28 @@
   }
 
   :root {
-    --white: #FFFFFF;
-    --black: #000000;
-    --neon:  #F0F788;
-    --rule:  rgba(0,0,0,1);
-    --rule-soft: rgba(0,0,0,0.12);
+    --white:      #FFFFFF;
+    --black:      #000000;
+    --ink:        #0A0A0A;
+    --neon:       #F0F788;
+    --bloom:      #F4F8B5;
+    --bloom-deep: #ECF29C;
+    --ash:        #6D6E71;
+    --rule:       rgba(0,0,0,1);
+    --rule-soft:  rgba(0,0,0,0.12);
+    --rule-mid:   rgba(0,0,0,0.35);
+
     --pad-x: clamp(20px, 4vw, 56px);
-    --gap-y: clamp(72px, 10vh, 144px);
+    --gap-y: clamp(96px, 14vh, 200px);
+
     --display: 'NHG Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --text:    'NHG Text', 'NHG Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
     --ease:    cubic-bezier(0.16, 1, 0.3, 1);
     --ease-io: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* No italics, ever — kill the defaults */
+  /* No italics, ever */
   em, i, cite, address, dfn, var { font-style: normal; }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -65,709 +73,768 @@
 
   body {
     background: var(--white);
-    color: var(--black);
+    color: var(--ink);
     font-family: var(--text);
     font-weight: 400;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.55;
     letter-spacing: 0.01em;
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricPrecision;
     overflow-x: hidden;
-    padding-bottom: 88px; /* clearance for sticky build bar */
   }
 
-  ::selection { background: var(--neon); color: var(--black); }
+  ::selection { background: var(--neon); color: var(--ink); }
 
   a { color: inherit; text-decoration: none; }
 
-  /* Reusable type scales — all displayed copy is uppercase */
-  .display, .eyebrow, .label, .price, .stamp, .meta-bar, .nav-link,
-  .pkg-name, .pkg-price, .add-name, .add-price, .build-total, .btn {
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .eyebrow {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-  }
-
-  .stamp {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-  }
+  img, svg { display: block; max-width: 100%; }
 
   /* ────────────────────────────────────────────────────────────────
-     META BAR — top
+     META BAR
      ──────────────────────────────────────────────────────────────── */
   .meta-bar {
-    position: sticky;
-    top: 0;
-    z-index: 60;
+    position: sticky; top: 0; z-index: 50;
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 24px;
-    padding: 16px var(--pad-x);
+    gap: clamp(16px, 4vw, 40px);
+    padding: 18px var(--pad-x);
     background: rgba(255,255,255,0.92);
-    backdrop-filter: saturate(140%) blur(14px);
-    -webkit-backdrop-filter: saturate(140%) blur(14px);
-    border-bottom: 1px solid var(--rule-soft);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
     font-family: var(--display);
-    font-size: 10px;
-    letter-spacing: 0.22em;
     font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
   }
-
   .j-mark {
-    display: inline-grid;
-    place-items: center;
-    width: 28px; height: 28px;
-    background: var(--black);
-    color: var(--white);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    background: var(--ink); color: var(--white);
     font-family: var(--display);
     font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0;
+    font-size: 18px;
+    letter-spacing: 0.02em;
     line-height: 1;
-    transition: background 0.3s var(--ease);
+    padding-bottom: 2px;
+    transition: background 200ms var(--ease-io);
   }
-  .j-mark:hover { background: var(--neon); color: var(--black); }
-  .j-mark span { transform: translateY(1px); }
+  .j-mark:hover { background: var(--neon); color: var(--ink); }
 
   .meta-nav {
-    display: flex;
-    gap: clamp(16px, 2.4vw, 32px);
-    justify-content: center;
+    display: flex; justify-content: center; gap: clamp(16px, 3vw, 36px);
     list-style: none;
   }
-  .meta-nav a {
-    position: relative;
-    padding: 4px 0;
-    transition: color 0.3s var(--ease);
-  }
+  .meta-nav a { position: relative; }
   .meta-nav a::after {
-    content: '';
-    position: absolute;
-    left: 0; bottom: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--neon);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s var(--ease);
+    content: ''; position: absolute; left: 0; right: 0; bottom: -4px;
+    height: 1px; background: var(--ink);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 280ms var(--ease);
   }
-  .meta-nav a:hover::after,
-  .meta-nav a.active::after { transform: scaleX(1); }
-  .meta-nav a.active { color: var(--black); }
+  .meta-nav a:hover::after { transform: scaleX(1); }
 
-  .meta-right {
-    text-align: right;
-    opacity: 0.6;
-  }
+  .meta-right { justify-self: end; opacity: 0.7; }
 
-  @media (max-width: 760px) {
+  @media (max-width: 720px) {
+    .meta-bar { grid-template-columns: auto 1fr; }
     .meta-nav { display: none; }
-    .meta-right { display: none; }
   }
 
   /* ────────────────────────────────────────────────────────────────
-     SECTION SCAFFOLD
+     SECTION BASE
      ──────────────────────────────────────────────────────────────── */
+  main { display: block; }
+
   section {
     padding: var(--gap-y) var(--pad-x);
-    position: relative;
+    border-top: 1px solid var(--rule-soft);
   }
-  section .page-no {
-    position: absolute;
-    top: 24px;
-    right: var(--pad-x);
-    color: var(--black);
-    transition: color 0.3s var(--ease);
-  }
-  section:hover .page-no { color: var(--neon); }
+  section:first-of-type { border-top: 0; padding-top: clamp(56px, 8vh, 96px); }
 
-  .section-head {
+  .wrap { max-width: 1440px; margin: 0 auto; }
+
+  .grid-12 {
     display: grid;
-    grid-template-columns: 96px 1fr;
-    gap: 32px;
-    align-items: baseline;
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(16px, 2vw, 24px);
+  }
+
+  /* Section heading pattern — small numbered eyebrow + display H2 */
+  .sec-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
     padding-bottom: 24px;
-    margin-bottom: 56px;
+    margin-bottom: clamp(48px, 8vh, 96px);
     border-bottom: 1px solid var(--rule);
   }
-  .section-head .num {
+  .sec-num {
+    display: block;
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: 11px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    margin-bottom: 14px;
   }
-  .section-head .title {
+  .sec-head h2 {
     font-family: var(--display);
     font-weight: 700;
-    font-size: clamp(24px, 3.2vw, 40px);
-    letter-spacing: 0.02em;
+    font-size: clamp(40px, 6.4vw, 104px);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
     text-transform: uppercase;
-    line-height: 1;
   }
-
-  @media (max-width: 640px) {
-    .section-head { grid-template-columns: 64px 1fr; gap: 16px; }
+  .sec-head .sec-meta {
+    text-align: right;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.6;
+    opacity: 0.7;
+    white-space: nowrap;
   }
 
   /* ────────────────────────────────────────────────────────────────
-     HERO — cover
+     00 — COVER
      ──────────────────────────────────────────────────────────────── */
-  .hero {
-    padding: 0;
+  .cover {
+    padding: clamp(72px, 12vh, 144px) var(--pad-x) clamp(96px, 14vh, 192px);
   }
-  .hero-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 88vh;
-  }
-  .hero-image {
-    background: var(--black) url('AGS-3-web.jpg') center/cover no-repeat;
-  }
-  .hero-copy {
-    padding: clamp(40px, 8vh, 96px) var(--pad-x);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 48px;
-    background: var(--white);
-  }
-  .hero-eyebrow {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
+  .cover-meta {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: clamp(40px, 8vh, 72px);
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: 11px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
-  .hero-eyebrow span:last-child { opacity: 0.55; }
-  .hero h1 {
+  .cover-meta .l { font-weight: 700; }
+  .cover-meta .r { opacity: 0.7; }
+
+  .cover-headline {
     font-family: var(--display);
     font-weight: 700;
-    font-size: clamp(56px, 9vw, 144px);
-    line-height: 0.92;
-    letter-spacing: -0.02em;
+    font-size: clamp(40px, 11vw, 220px);
+    line-height: 0.84;
+    letter-spacing: -0.045em;
     text-transform: uppercase;
-    margin-top: auto;
   }
-  .hero h1 .small {
-    display: block;
-    font-size: clamp(14px, 1.4vw, 18px);
-    letter-spacing: 0.06em;
-    margin-top: 24px;
+  .cover-headline .accent {
+    background: var(--neon);
+    padding: 0 0.04em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .cover-foot {
+    margin-top: clamp(48px, 8vh, 96px);
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(16px, 4vw, 64px);
+    align-items: start;
+  }
+  .cover-tagline {
+    font-family: var(--display);
     font-weight: 500;
-    line-height: 1.4;
+    font-size: clamp(20px, 1.9vw, 28px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
     max-width: 32ch;
   }
-  .hero-foot {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    padding-top: 24px;
+  .cover-stamp {
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: 11px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
+    line-height: 1.7;
+    text-align: right;
   }
-  .hero-foot a {
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s var(--ease);
-  }
-  .hero-foot a:hover { border-bottom-color: var(--neon); }
+  .cover-stamp strong { font-weight: 700; }
 
-  @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr; min-height: auto; }
-    .hero-image { aspect-ratio: 4/5; }
+  @media (max-width: 720px) {
+    .cover-foot { grid-template-columns: 1fr; }
+    .cover-stamp { text-align: left; }
   }
 
   /* ────────────────────────────────────────────────────────────────
-     ABOUT + ETHOS
+     01 — STUDIO
      ──────────────────────────────────────────────────────────────── */
-  .about-feature {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(32px, 5vw, 80px);
-    align-items: stretch;
+  .studio-body {
+    grid-column: 1 / span 7;
   }
-  .about-feature figure {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-  }
-  .about-feature .photo {
-    width: 100%;
-    aspect-ratio: 2 / 3;
-    background: #f4f4f4 url('julian-isabella.webp') center/cover no-repeat;
-    display: block;
-  }
-  .about-feature figcaption {
-    margin-top: 16px;
+  .studio-body p {
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: clamp(28px, 3.2vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
     text-transform: uppercase;
-    opacity: 0.55;
   }
-  .about-text {
-    display: grid;
-    gap: 28px;
-    align-content: start;
-    padding-top: 8px;
+  .studio-side {
+    grid-column: 9 / span 4;
+    align-self: end;
   }
-  .about-text .label {
+  .studio-side .label {
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: 11px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.7;
   }
-  .about-text .lede {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(24px, 3.2vw, 40px);
-    line-height: 1.15;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-    max-width: 18ch;
+  .studio-side p {
+    font-size: 14px;
+    line-height: 1.55;
   }
-  .about-text p {
-    font-family: var(--text);
-    font-size: 15px;
-    line-height: 1.6;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    max-width: 58ch;
-  }
-  @media (max-width: 900px) {
-    .about-feature { grid-template-columns: 1fr; gap: 32px; }
-    .about-feature .photo { aspect-ratio: 3 / 4; }
-  }
+  .studio-side p + p { margin-top: 1em; }
 
-  .press-row {
+  .press-strip {
     margin-top: clamp(56px, 8vh, 96px);
-    display: grid;
-    grid-template-columns: 96px 1fr;
-    gap: 32px;
-    align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .press-strip .label {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0.7;
   }
   .press-logos {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    align-items: center;
-    gap: clamp(24px, 3.5vw, 56px);
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: clamp(28px, 5vw, 64px);
     list-style: none;
   }
-  .press-logos li {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 64px;
-  }
+  .press-logos li { display: flex; align-items: center; }
   .press-logos img {
-    display: block;
-    width: 100%;
-    max-width: 220px;
-    max-height: 56px;
-    height: auto;
-    object-fit: contain;
-    object-position: left center;
-    /* Force every logo to render in pure black for editorial unity */
-    filter: brightness(0);
-    opacity: 0.82;
-    transition: opacity 0.4s var(--ease);
+    height: clamp(20px, 2.4vw, 32px);
+    width: auto;
+    opacity: 0.85;
+    filter: grayscale(100%);
+    transition: opacity 220ms var(--ease-io), filter 220ms var(--ease-io);
   }
-  .press-logos li:hover img { opacity: 1; }
-  /* Per-logo size correction so they read at consistent visual weight */
-  .press-logos .logo-vogue img       { max-height: 34px; }
-  .press-logos .logo-gq img          { max-height: 56px; }
-  .press-logos .logo-bazaar img      { max-height: 22px; }
-  .press-logos .logo-who img         { max-height: 46px; }
-  .press-logos .logo-thewed img      { max-height: 28px; }
+  .press-logos li:hover img { opacity: 1; filter: grayscale(0%); }
+
+  .press-list {
+    margin-top: 32px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ash);
+    max-width: 70ch;
+  }
+
+  .clientele {
+    margin-top: clamp(48px, 6vh, 72px);
+    padding-top: 32px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .clientele .label {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.7;
+  }
+  .clientele p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ash);
+    max-width: 70ch;
+  }
 
   @media (max-width: 900px) {
-    .press-logos { grid-template-columns: repeat(3, 1fr); gap: 32px 36px; }
-  }
-  @media (max-width: 560px) {
-    .press-logos { grid-template-columns: repeat(2, 1fr); gap: 28px 32px; }
-  }
-  @media (max-width: 640px) {
-    .press-row { grid-template-columns: 64px 1fr; gap: 16px; }
-  }
-
-  .ethos {
-    display: grid;
-    grid-template-columns: 96px 1fr;
-    gap: 32px;
-    align-items: baseline;
-  }
-  .ethos .label {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-  .ethos p {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(22px, 3.2vw, 40px);
-    line-height: 1.2;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-    max-width: 28ch;
-  }
-  @media (max-width: 640px) {
-    .ethos { grid-template-columns: 64px 1fr; gap: 16px; }
+    .studio-body { grid-column: 1 / -1; }
+    .studio-side { grid-column: 1 / -1; margin-top: 32px; align-self: start; }
   }
 
   /* ────────────────────────────────────────────────────────────────
-     PACKAGES — selectable cards
+     02 — ETHOS (typographic moment)
      ──────────────────────────────────────────────────────────────── */
-  .pkg-instructions {
-    margin-bottom: 32px;
+  .ethos {
+    text-align: left;
+  }
+  .ethos .sec-num {
+    margin-bottom: clamp(40px, 6vh, 64px);
+  }
+  .ethos-statement {
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: clamp(36px, 6vw, 96px);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
-    opacity: 0.55;
+    max-width: 22ch;
   }
+  .ethos-statement .lift {
+    background: var(--neon);
+    padding: 0 0.06em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .ethos-foot {
+    margin-top: clamp(48px, 6vh, 80px);
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     03 — IMAGE PUNCTUATION (diptych)
+     ──────────────────────────────────────────────────────────────── */
+  .punctuation {
+    padding: clamp(72px, 10vh, 144px) var(--pad-x);
+    border-top: 1px solid var(--rule-soft);
+    display: flex;
+    justify-content: center;
+  }
+  .plate-pair {
+    width: 100%;
+    max-width: 1280px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(16px, 2vw, 28px);
+  }
+  .plate-pair figure {
+    margin: 0;
+    min-width: 0;
+  }
+  .plate-pair img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+  }
+  .plate-pair figcaption {
+    margin-top: 14px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    display: flex; justify-content: space-between;
+  }
+  @media (max-width: 720px) {
+    .plate-pair {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     04 — PACKAGES
+     ──────────────────────────────────────────────────────────────── */
+  .pkg-instructions {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 24px;
+  }
+
   .pkg-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
   }
   .pkg {
     appearance: none;
+    -webkit-appearance: none;
     background: var(--white);
-    color: var(--black);
+    color: var(--ink);
+    font: inherit;
     text-align: left;
-    border: 0;
-    border-right: 1px solid var(--rule-soft);
-    padding: 40px 32px 32px;
-    font-family: var(--text);
-    font-size: 13px;
     cursor: pointer;
-    position: relative;
-    transition: background 0.4s var(--ease), color 0.4s var(--ease);
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    min-height: 360px;
-  }
-  .pkg:last-child { border-right: 0; }
-  .pkg:hover { background: var(--neon); }
-  .pkg.selected { background: var(--black); color: var(--white); }
-  .pkg.selected:hover { background: var(--black); }
-  .pkg-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-  }
-  .pkg-name {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 0.04em;
-  }
-  .pkg-price {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-  .pkg-headline {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(28px, 3vw, 40px);
-    line-height: 1;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-  }
-  .pkg-list {
-    list-style: none;
-    display: grid;
-    gap: 10px;
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .pkg-list li {
-    padding-left: 18px;
+    width: 100%;
+    border: 0;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: clamp(32px, 4vw, 56px);
+    display: flex; flex-direction: column;
+    transition: background 280ms var(--ease-io), color 280ms var(--ease-io);
+    min-height: clamp(420px, 56vh, 580px);
     position: relative;
   }
-  .pkg-list li::before {
-    content: '';
+  .pkg:focus-visible {
+    outline: 2px solid var(--neon);
+    outline-offset: -2px;
+  }
+  .pkg:hover { background: var(--bloom); }
+  .pkg.selected {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .pkg.selected:hover { background: var(--ink); }
+  .pkg.selected .pkg-headline { color: rgba(255,255,255,0.7); }
+  .pkg.selected .pkg-foot { color: rgba(255,255,255,0.55); }
+  .pkg.selected .pkg-list { border-top-color: rgba(255,255,255,0.55); }
+  .pkg.selected .pkg-list li { border-bottom-color: rgba(255,255,255,0.18); }
+  .pkg.selected .pkg-list li:last-child { border-bottom-color: transparent; }
+
+  .pkg-state {
     position: absolute;
-    left: 0; top: 8px;
-    width: 8px; height: 1px;
-    background: currentColor;
-  }
-  .pkg-foot {
-    margin-top: auto;
-    padding-top: 20px;
-    display: flex;
-    justify-content: space-between;
+    top: clamp(20px, 2.4vw, 28px);
+    right: clamp(20px, 2.4vw, 28px);
     font-family: var(--display);
     font-weight: 500;
     font-size: 10px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
+    color: var(--ash);
+    opacity: 0;
+    transition: opacity 280ms var(--ease-io);
   }
-  .pkg-foot .state::before {
-    content: 'Select';
-  }
-  .pkg.selected .pkg-foot .state::before { content: 'Selected'; }
-  .pkg .check {
-    width: 14px; height: 14px;
-    border: 1px solid currentColor;
-    display: inline-block;
-    position: relative;
-  }
-  .pkg.selected .check::after {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    background: var(--neon);
-  }
-  .pkg .footnote {
-    font-family: var(--text);
+  .pkg-state::before { content: 'Tap to select'; }
+  .pkg:hover .pkg-state { opacity: 1; }
+  .pkg.selected .pkg-state { opacity: 1; color: var(--neon); }
+  .pkg.selected .pkg-state::before { content: '✓ Selected'; }
+
+  .pkg-num {
+    font-family: var(--display);
+    font-weight: 500;
     font-size: 11px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    opacity: 0.55;
-    line-height: 1.4;
+    margin-bottom: clamp(40px, 6vh, 64px);
+    display: flex; justify-content: space-between;
   }
+  .pkg-num .price {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .pkg-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(32px, 3.6vw, 56px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+  .pkg-meta {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: clamp(20px, 3vh, 32px);
+  }
+  .pkg.selected .pkg-meta { color: rgba(255,255,255,0.55); }
+  .pkg-headline {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: auto;
+    padding-bottom: clamp(32px, 5vh, 56px);
+  }
+  .pkg-list {
+    list-style: none;
+    border-top: 1px solid var(--rule);
+  }
+  .pkg-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .pkg-list li:last-child { border-bottom: 0; }
+
+  .pkg-foot {
+    margin-top: 16px;
+    font-family: var(--text);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ash);
+  }
+
   @media (max-width: 900px) {
     .pkg-grid { grid-template-columns: 1fr; }
-    .pkg { border-right: 0; border-bottom: 1px solid var(--rule-soft); min-height: 0; }
-    .pkg:last-child { border-bottom: 0; }
+    .pkg { min-height: 0; }
   }
 
   /* ────────────────────────────────────────────────────────────────
-     ADDITIONS — toggle cards
+     05 — ADDITIONS
      ──────────────────────────────────────────────────────────────── */
   .add-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 0;
+    border-top: 1px solid var(--rule);
   }
   .add {
     appearance: none;
-    text-align: left;
+    -webkit-appearance: none;
     background: var(--white);
-    color: var(--black);
-    border: 0;
-    border-right: 1px solid var(--rule-soft);
-    border-bottom: 1px solid var(--rule-soft);
-    padding: 28px 28px 24px;
-    font-family: var(--text);
+    color: var(--ink);
+    font: inherit;
+    text-align: left;
     cursor: pointer;
+    width: 100%;
+    border: 0;
+    padding: clamp(32px, 4vw, 56px) clamp(28px, 3vw, 48px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; flex-direction: column;
+    transition: background 280ms var(--ease-io), color 280ms var(--ease-io);
     position: relative;
-    transition: background 0.4s var(--ease), color 0.4s var(--ease);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    min-height: 240px;
   }
-  .add:nth-child(3n) { border-right: 0; }
-  .add:hover { background: var(--neon); }
-  .add.selected { background: var(--black); color: var(--white); }
-  .add.selected:hover { background: var(--black); }
+  .add:focus-visible {
+    outline: 2px solid var(--neon);
+    outline-offset: -2px;
+  }
+  .add:nth-child(odd) { border-right: 1px solid var(--rule); }
+  .add:hover { background: var(--bloom); }
+  .add.selected {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .add.selected:hover { background: var(--ink); }
+  .add.selected .add-sub {
+    color: rgba(255,255,255,0.55);
+    border-bottom-color: rgba(255,255,255,0.18);
+  }
+
+  .add-state {
+    position: absolute;
+    top: clamp(20px, 2.4vw, 28px);
+    right: clamp(20px, 2.4vw, 28px);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash);
+    opacity: 0;
+    transition: opacity 280ms var(--ease-io);
+  }
+  .add-state::before { content: '+ Add'; }
+  .add:hover .add-state { opacity: 1; }
+  .add.selected .add-state { opacity: 1; color: var(--neon); }
+  .add.selected .add-state::before { content: '✓ Added'; }
+
   .add-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    display: flex; justify-content: space-between; align-items: baseline;
     gap: 16px;
+    margin-bottom: 20px;
   }
   .add-name {
     font-family: var(--display);
     font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.04em;
+    font-size: clamp(22px, 2.2vw, 32px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
   }
   .add-price {
     font-family: var(--display);
-    font-weight: 500;
-    font-size: 12px;
+    font-weight: 700;
+    font-size: clamp(14px, 1.2vw, 16px);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
   }
   .add-sub {
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: 11px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    opacity: 0.55;
+    color: var(--ash);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule-soft);
   }
   .add-body {
-    font-family: var(--text);
-    font-size: 12px;
-    line-height: 1.55;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    max-width: 30ch;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 50ch;
   }
-  .add-foot {
-    margin-top: auto;
-    padding-top: 16px;
-    display: flex;
-    justify-content: space-between;
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-  .add-foot .state::before { content: 'Add'; }
-  .add.selected .add-foot .state::before { content: 'Added'; }
-  .add .plus {
-    width: 14px; height: 14px;
-    position: relative;
-    display: inline-block;
-  }
-  .add .plus::before, .add .plus::after {
-    content: '';
-    position: absolute;
-    background: currentColor;
-  }
-  .add .plus::before { left: 0; right: 0; top: 50%; height: 1px; transform: translateY(-50%); }
-  .add .plus::after { top: 0; bottom: 0; left: 50%; width: 1px; transform: translateX(-50%); transition: transform 0.3s var(--ease); }
-  .add.selected .plus::after { transform: translateX(-50%) scaleY(0); }
 
-  @media (max-width: 900px) {
-    .add-grid { grid-template-columns: 1fr 1fr; }
-    .add:nth-child(3n) { border-right: 1px solid var(--rule-soft); }
-    .add:nth-child(2n) { border-right: 0; }
-  }
-  @media (max-width: 560px) {
+  @media (max-width: 720px) {
     .add-grid { grid-template-columns: 1fr; }
     .add { border-right: 0 !important; }
   }
 
   /* ────────────────────────────────────────────────────────────────
-     FAQ — accordions
+     06 — ALBUMS (bloom panel, long-form)
      ──────────────────────────────────────────────────────────────── */
-  .faq { display: grid; }
-  .faq-item {
-    border-bottom: 1px solid var(--rule-soft);
+  .albums {
+    background: var(--bloom);
+    padding-left: var(--pad-x);
+    padding-right: var(--pad-x);
+    border-top: 1px solid var(--rule);
   }
-  .faq-item:first-child {
-    border-top: 1px solid var(--rule-soft);
-  }
-  .faq-item summary {
+  .albums .sec-head { border-bottom-color: rgba(0,0,0,0.55); }
+
+  .album-spread {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 32px;
-    align-items: center;
-    padding: 28px var(--pad-x);
-    margin: 0 calc(-1 * var(--pad-x));
-    cursor: pointer;
-    list-style: none;
-    color: var(--black);
-    transition: background 0.4s var(--ease), color 0.4s var(--ease);
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(16px, 2vw, 24px);
   }
-  .faq-item summary::-webkit-details-marker { display: none; }
-  .faq-item summary::marker { content: ''; }
-  .faq-q {
+  .album-display {
+    grid-column: 1 / span 7;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(40px, 5.6vw, 96px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+  .album-body {
+    grid-column: 9 / span 4;
+    align-self: end;
+    font-family: var(--text);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .album-body p + p { margin-top: 1em; }
+
+  .album-detail {
+    margin-top: clamp(56px, 8vh, 96px);
+    padding-top: 32px;
+    border-top: 1px solid rgba(0,0,0,0.55);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .album-detail .item .k {
     font-family: var(--display);
     font-weight: 500;
-    font-size: clamp(17px, 2vw, 24px);
-    line-height: 1.3;
-    letter-spacing: 0.01em;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .album-detail .item .v {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
     text-transform: uppercase;
   }
-  .faq-mark {
-    width: 14px;
-    height: 14px;
-    position: relative;
-    flex-shrink: 0;
-    display: inline-block;
-  }
-  .faq-mark::before,
-  .faq-mark::after {
-    content: '';
-    position: absolute;
-    background: currentColor;
-  }
-  .faq-mark::before {
-    left: 0; right: 0; top: 50%;
-    height: 1px;
-    transform: translateY(-50%);
-  }
-  .faq-mark::after {
-    top: 0; bottom: 0; left: 50%;
-    width: 1px;
-    transform: translateX(-50%);
-    transition: transform 0.4s var(--ease);
-  }
-  .faq-item[open] .faq-mark::after {
-    transform: translateX(-50%) scaleY(0);
-  }
-  .faq-item summary:hover {
-    background: var(--neon);
-  }
-  .faq-answer {
-    padding: 0 0 32px 0;
-    max-width: 72ch;
-  }
-  .faq-answer p {
-    font-family: var(--text);
-    font-size: 14px;
-    line-height: 1.7;
-    letter-spacing: 0.03em;
+
+  .album-price {
+    margin-top: clamp(48px, 6vh, 72px);
+    padding-top: 24px;
+    border-top: 1px solid rgba(0,0,0,0.55);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
-  .faq-answer p + p { margin-top: 14px; }
+  .album-price strong {
+    font-weight: 700;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 900px) {
+    .album-display, .album-body { grid-column: 1 / -1; }
+    .album-body { margin-top: 32px; }
+    .album-detail { grid-template-columns: 1fr; gap: 24px; }
+  }
 
   /* ────────────────────────────────────────────────────────────────
-     YOUR BUILD — summary + form
+     07 — ENQUIRE (build summary + form)
      ──────────────────────────────────────────────────────────────── */
-  #build {
-    background: var(--black);
-    color: var(--white);
-    border-bottom: 0;
+  .enquire {
+    padding-top: clamp(120px, 18vh, 220px);
+    padding-bottom: clamp(96px, 14vh, 192px);
   }
-  #build .section-head { border-bottom-color: var(--white); }
-  #build .page-no { color: var(--white); }
-  #build:hover .page-no { color: var(--neon); }
+  .close-headline {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(56px, 10vw, 168px);
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    max-width: 12ch;
+    margin-bottom: clamp(56px, 8vh, 96px);
+  }
+  .close-headline .lift {
+    background: var(--neon);
+    padding: 0 0.04em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .build-eyebrow {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
 
   .build-wrap {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 64px;
+    gap: clamp(40px, 5vw, 80px);
     align-items: start;
   }
-  @media (max-width: 900px) {
-    .build-wrap { grid-template-columns: 1fr; gap: 48px; }
-  }
 
-  .build-summary {
-    padding: 0;
-  }
+  /* ─── Build summary (left) ─── */
+  .build-summary { padding: 0; }
+
   .build-line {
     display: grid;
     grid-template-columns: 1fr auto auto;
     gap: 16px;
     align-items: baseline;
-    padding: 12px 0;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule-soft);
     font-family: var(--display);
     font-weight: 500;
     font-size: 12px;
@@ -780,33 +847,41 @@
     font-weight: 400;
     font-size: 10px;
     letter-spacing: 0.04em;
-    opacity: 0.55;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .build-line .price {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
   .build-line .remove {
     appearance: none;
     background: transparent;
     border: 0;
-    color: inherit;
+    color: var(--ash);
     font: inherit;
     cursor: pointer;
-    opacity: 0.55;
     padding: 0;
-    transition: color 0.3s var(--ease), opacity 0.3s var(--ease);
+    transition: color 220ms var(--ease-io);
   }
-  .build-line .remove:hover { color: var(--neon); opacity: 1; }
+  .build-line .remove:hover { color: var(--ink); background: var(--neon); padding: 2px 6px; margin: -2px -6px; }
+
   .build-empty {
-    padding: 32px 0;
+    padding: 28px 0;
     font-family: var(--display);
     font-weight: 500;
     font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    opacity: 0.55;
+    color: var(--ash);
   }
+
   .build-total-row {
     margin-top: 24px;
     padding-top: 24px;
-    border-top: 1px solid var(--white);
+    border-top: 1px solid var(--rule);
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 16px;
@@ -818,16 +893,19 @@
     font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
+    color: var(--ash);
   }
   .build-total {
     font-family: var(--display);
     font-weight: 700;
-    font-size: clamp(32px, 4vw, 48px);
-    letter-spacing: -0.01em;
+    font-size: clamp(32px, 4vw, 56px);
+    letter-spacing: -0.02em;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
   }
 
   .build-actions {
-    margin-top: 24px;
+    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
   }
@@ -835,122 +913,131 @@
     appearance: none;
     cursor: pointer;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.35);
-    color: var(--white);
+    border: 1px solid var(--rule);
+    color: var(--ink);
     font-family: var(--display);
     font-weight: 500;
     font-size: 10px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     padding: 12px 18px;
-    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+    transition: background 220ms var(--ease-io), color 220ms var(--ease-io), border-color 220ms var(--ease-io);
   }
-  .reset-btn:hover {
-    border-color: var(--neon);
-    color: var(--neon);
-  }
-  .reset-btn.confirming {
-    background: var(--neon);
-    border-color: var(--neon);
-    color: var(--black);
-  }
+  .reset-btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+  .reset-btn.confirming { background: var(--neon); border-color: var(--neon); color: var(--ink); }
   .reset-btn[hidden] { display: none; }
 
+  .build-fineprint {
+    margin-top: 20px;
+    font-family: var(--text);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ash);
+    max-width: 50ch;
+  }
+
+  /* ─── Form (right) ─── */
   .build-form {
     display: grid;
     gap: 20px;
   }
-  .field {
-    display: grid;
-    gap: 6px;
-  }
+  .field { display: grid; gap: 6px; }
   .field label {
     font-family: var(--display);
     font-weight: 500;
     font-size: 10px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    opacity: 0.7;
+    color: var(--ash);
   }
-  .field input, .field textarea {
+  .field input,
+  .field textarea {
     appearance: none;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.3);
-    color: var(--white);
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
     font-family: var(--text);
     font-size: 14px;
     letter-spacing: 0.03em;
-    text-transform: uppercase;
-    padding: 8px 0;
+    padding: 10px 0;
     border-radius: 0;
-    transition: border-color 0.3s var(--ease);
+    transition: border-color 220ms var(--ease-io);
   }
   .field input::placeholder, .field textarea::placeholder {
-    color: rgba(255,255,255,0.3);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+    color: var(--ash);
+    opacity: 0.5;
   }
   .field input:focus, .field textarea:focus {
     outline: 0;
-    border-bottom-color: var(--neon);
+    border-bottom-color: var(--ink);
   }
-  .field textarea { resize: vertical; min-height: 88px; }
+  .field textarea { resize: vertical; min-height: 88px; font-family: var(--text); }
   .field-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  @media (max-width: 560px) {
-    .field-row { grid-template-columns: 1fr; }
-  }
 
-  .btn {
+  .btn-send {
     appearance: none;
     cursor: pointer;
-    border: 1px solid var(--white);
-    background: var(--white);
-    color: var(--black);
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--white);
     font-family: var(--display);
     font-weight: 700;
     font-size: 12px;
     letter-spacing: 0.22em;
-    padding: 22px 24px;
+    padding: 22px 26px;
     text-transform: uppercase;
-    transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease);
+    transition: background 320ms var(--ease-io), color 320ms var(--ease-io), border-color 320ms var(--ease-io);
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
+    margin-top: 8px;
   }
-  .btn:hover {
+  .btn-send:hover {
     background: var(--neon);
     border-color: var(--neon);
-    color: var(--black);
+    color: var(--ink);
   }
-  .btn .arrow {
-    display: inline-block;
-    transition: transform 0.4s var(--ease);
-  }
-  .btn:hover .arrow { transform: translateX(6px); }
-  .btn:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-  .btn:disabled:hover {
-    background: var(--white); border-color: var(--white); color: var(--black);
+  .btn-send .arrow { display: inline-block; transition: transform 320ms var(--ease-io); }
+  .btn-send:hover .arrow { transform: translateX(6px); }
+  .btn-send:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-send:disabled:hover {
+    background: var(--ink); color: var(--white); border-color: var(--ink);
   }
 
-  .build-fineprint {
-    margin-top: 16px;
+  /* ─── Colophon ─── */
+  .colophon {
+    margin-top: clamp(72px, 10vh, 120px);
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: 16px;
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    opacity: 0.55;
-    line-height: 1.6;
-    max-width: 52ch;
+    color: var(--ash);
+  }
+  .colophon a {
+    color: inherit;
+    border-bottom: 1px solid var(--rule);
+    transition: background 220ms var(--ease-io), color 220ms var(--ease-io);
+    padding: 0 2px;
+  }
+  .colophon a:hover { background: var(--neon); color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .build-wrap { grid-template-columns: 1fr; gap: 56px; }
+  }
+  @media (max-width: 560px) {
+    .field-row { grid-template-columns: 1fr; }
   }
 
   /* ────────────────────────────────────────────────────────────────
@@ -969,902 +1056,799 @@
     border-top: 1px solid var(--rule);
     font-family: var(--display);
     font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: 11px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     transform: translateY(100%);
-    transition: transform 0.5s var(--ease);
+    transition: transform 480ms var(--ease);
   }
   .build-bar.show { transform: translateY(0); }
-  .build-bar .lhs {
-    display: flex; align-items: baseline; gap: 16px;
-  }
-  .build-bar .total {
+  .build-bar .lhs { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .build-bar .bar-total {
     font-family: var(--display);
     font-weight: 700;
     font-size: 16px;
     letter-spacing: 0;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
   }
-  .build-bar .count { opacity: 0.55; }
-  .build-bar .review {
+  .build-bar .bar-count { color: var(--ash); }
+  .build-bar .bar-review {
     appearance: none;
-    border: 1px solid var(--black);
-    background: var(--black);
+    cursor: pointer;
+    border: 1px solid var(--ink);
+    background: var(--ink);
     color: var(--white);
-    padding: 12px 20px;
+    padding: 12px 22px;
     font-family: var(--display);
     font-weight: 700;
     font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 16px;
-    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+    gap: 14px;
+    transition: background 220ms var(--ease-io), color 220ms var(--ease-io), border-color 220ms var(--ease-io);
   }
-  .build-bar .review:hover {
-    background: var(--neon); color: var(--black); border-color: var(--neon);
+  .build-bar .bar-review:hover {
+    background: var(--neon); color: var(--ink); border-color: var(--neon);
   }
+  body.has-bar { padding-bottom: 88px; }
+
   @media (max-width: 560px) {
-    .build-bar { grid-template-columns: 1fr auto; gap: 12px; padding: 12px var(--pad-x); }
-    .build-bar .center { display: none; }
+    .build-bar { grid-template-columns: 1fr auto; gap: 12px; padding: 14px var(--pad-x); }
+    .build-bar .bar-spacer { display: none; }
+    .build-bar .lhs { gap: 10px; }
   }
 
   /* ────────────────────────────────────────────────────────────────
-     FOOTER
+     REVEAL
      ──────────────────────────────────────────────────────────────── */
-  footer {
-    padding: 40px var(--pad-x) 56px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 24px;
-    align-items: center;
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-  footer .right { text-align: right; opacity: 0.55; }
-  @media (max-width: 640px) {
-    footer { grid-template-columns: 1fr; text-align: left; }
-    footer .right { text-align: left; }
-  }
-
-  /* ────────────────────────────────────────────────────────────────
-     CUSTOM CURSOR — desktop only, neon dot
-     ──────────────────────────────────────────────────────────────── */
-  @media (hover: hover) and (pointer: fine) {
-    body.has-cursor { cursor: none; }
-    body.has-cursor a, body.has-cursor button, body.has-cursor input, body.has-cursor textarea { cursor: none; }
-    .cursor {
-      position: fixed;
-      top: 0; left: 0;
-      width: 8px; height: 8px;
-      background: var(--neon);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.25s var(--ease), height 0.25s var(--ease), background 0.25s var(--ease);
-      mix-blend-mode: difference;
-    }
-    .cursor.hover {
-      width: 28px; height: 28px;
-    }
-  }
-  @media (hover: none), (pointer: coarse) {
-    .cursor { display: none; }
-  }
-
-  /* Reveal-on-scroll */
   .reveal {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
   }
-  .reveal.in {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
+  .reveal.is-in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
+    .reveal { opacity: 1; transform: none; transition: none; }
     html { scroll-behavior: auto; }
   }
 </style>
 </head>
 <body>
 
-  <div class="cursor" aria-hidden="true"></div>
-
   <!-- ───────── Meta bar ───────── -->
   <header class="meta-bar">
-    <a href="#top" class="j-mark" aria-label="Julian Rinaldi"><span>J.</span></a>
+    <a href="#top" class="j-mark" aria-label="Julian Rinaldi">J.</a>
     <nav>
       <ul class="meta-nav">
-        <li><a href="#about">About</a></li>
+        <li><a href="#studio">Studio</a></li>
+        <li><a href="#ethos">Ethos</a></li>
         <li><a href="#packages">Packages</a></li>
         <li><a href="#additions">Additions</a></li>
-        <li><a href="#faq">FAQs</a></li>
-        <li><a href="#build">Your Build</a></li>
+        <li><a href="#albums">Albums</a></li>
+        <li><a href="#enquire">Enquire</a></li>
       </ul>
     </nav>
-    <div class="meta-right">Vol. 03 · 2026/27</div>
+    <div class="meta-right">Vol. 04 · 2026/27</div>
   </header>
 
   <main id="top">
 
-    <!-- ───────── Cover ───────── -->
-    <section class="hero" data-page="00">
-      <div class="hero-inner">
-        <div class="hero-image" role="img" aria-label="Reference photograph"></div>
-        <div class="hero-copy">
-          <div class="hero-eyebrow">
-            <span>Julian Rinaldi Photography</span>
-            <span>00 / Cover</span>
-          </div>
-          <h1>
-            Wedding<br />Photography
-            <span class="small">A boutique photo studio for the modern romantic, built for couples who read the room in fashion, not only in flowers.</span>
-          </h1>
-          <div class="hero-foot">
-            <span>2026 / 2027 Price Guide</span>
-            <a href="#packages">Begin →</a>
+    <!-- ───────── 00 / Cover ───────── -->
+    <section class="cover">
+      <div class="wrap">
+        <div class="cover-meta">
+          <span class="l">Julian Rinaldi Photography</span>
+          <span class="r">00 / Cover · Sydney</span>
+        </div>
+        <h1 class="cover-headline">
+          Wedding<br />
+          <span class="accent">Photography</span>
+        </h1>
+        <div class="cover-foot">
+          <p class="cover-tagline">A boutique photo studio for the modern romantic, built for couples who read the room in fashion, not only in flowers.</p>
+          <div class="cover-stamp">
+            <strong>2026 / 2027</strong><br />
+            Price guide<br />
+            Edition Vol. 04
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ───────── About / Press / Clientele ───────── -->
-    <section id="about" data-page="01">
-      <div class="page-no stamp">001 / 006</div>
-      <div class="section-head reveal">
-        <div class="num">01</div>
-        <div class="title">About</div>
-      </div>
+    <!-- ───────── 01 / Studio ───────── -->
+    <section id="studio">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-num">01 — Studio</span>
+            <h2>About,<br />press &amp;<br />clientele</h2>
+          </div>
+          <div class="sec-meta">
+            Sydney<br />
+            By appointment
+          </div>
+        </div>
 
-      <div class="about-feature reveal">
+        <div class="grid-12 reveal">
+          <div class="studio-body">
+            <p>A boutique wedding and event studio, based in Sydney.</p>
+          </div>
+          <div class="studio-side">
+            <div class="label">Approach</div>
+            <p>We work with a small number of couples each season. Coverage is led by Julian, with a second photographer on the larger packages. Communications run through email and Instagram, with a one-business-day reply window.</p>
+          </div>
+        </div>
+
+        <div class="press-strip reveal">
+          <div class="label">As featured</div>
+          <ul class="press-logos">
+            <li><img src="press-logos/vogue.svg" alt="Vogue" /></li>
+            <li><img src="press-logos/gq.svg" alt="GQ" /></li>
+            <li><img src="press-logos/harpers-bazaar.svg" alt="Harper's Bazaar" /></li>
+            <li><img src="press-logos/who.svg" alt="WHO Magazine" /></li>
+            <li><img src="press-logos/thewed.svg" alt="The Wed" /></li>
+            <li><img src="press-logos/thelane.svg" alt="The Lane" /></li>
+          </ul>
+          <p class="press-list">Our work has been published in Wedded Wonderland, GQ Australia, VOGUE, Harpers Bazaar AU, Bode Magazine, WHO Magazine, Modern Wedding, The Wed and The Lane.</p>
+        </div>
+
+        <div class="clientele reveal">
+          <div class="label">Clientele</div>
+          <p>Commercial clientele includes Rita Ora, J'Aton Couture, LEO&amp;LIN, Rolex Australia, Merivale, Ulysse Nardin, Hublot, BMW Australia, SHEIKE and BELANCE.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 02 / Ethos ───────── -->
+    <section id="ethos" class="ethos">
+      <div class="wrap">
+        <span class="sec-num reveal">02 — Our ethos</span>
+        <p class="ethos-statement reveal">
+          We photograph the day the way an editor builds a story — <span class="lift">restrained, intentional,</span> edited with a point of view. The frame is held until it earns the shutter.
+        </p>
+        <div class="ethos-foot reveal">
+          <span>Vol. 04 · 2026/27</span>
+          <span>Sydney — worldwide</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 03 / Image punctuation (diptych) ───────── -->
+    <section class="punctuation" aria-label="Editorial plates">
+      <div class="plate-pair">
         <figure>
-          <span class="photo" role="img" aria-label="Julian Rinaldi and Isabella"></span>
-          <figcaption>Julian &amp; Isabella · Sydney</figcaption>
+          <img src="imagery/plate-01.webp" alt="A wedding reception — guests waving napkins under candlelit arches." loading="lazy" />
         </figure>
-        <div class="about-text">
-          <div class="label">Studio</div>
-          <div class="lede">Julian &amp; Isabella.</div>
-          <p>Julian Rinaldi Photography is a wedding &amp; event photography studio, founded in Sydney, Australia.</p>
-          <p>What started as a personal visual diary — evolved into a passion for celebrations. With the influence of fashion, our work became less about composing scenes and more about documenting events that feel intentional, honest and timeless. As our work matured, so did the rooms it entered. With over 10 years of experience, we are humbled to be published on digital and print publications, including — VOGUE, GQ, Harper's Bazaar, The Wed, WHO Magazine &amp; more. Beyond weddings, we've had the privilege of capturing high-profile events and collaborating with brands, creatives and public figures whose worlds demand precision and confidence.</p>
-          <p>Today, this passion sits at the intersection of fashion and romance. We work with a limited number of commissions each year, capturing weddings across the world on digital and film.</p>
-        </div>
-      </div>
-
-      <div class="press-row reveal">
-        <div class="label">As Featured</div>
-        <ul class="press-logos">
-          <li class="logo-vogue"><img src="press-logos/vogue.svg" alt="Vogue" /></li>
-          <li class="logo-gq"><img src="press-logos/gq.svg" alt="GQ" /></li>
-          <li class="logo-bazaar"><img src="press-logos/harpers-bazaar.svg" alt="Harper's Bazaar" /></li>
-          <li class="logo-who"><img src="press-logos/who.svg" alt="WHO Magazine" /></li>
-          <li class="logo-thewed"><img src="press-logos/thewed.svg" alt="The Wed" /></li>
-        </ul>
+        <figure>
+          <img src="imagery/plate-02.jpg" alt="An Australian countryside vista — eucalyptus, olive grove, dam." loading="lazy" />
+        </figure>
       </div>
     </section>
 
-    <!-- ───────── Packages ───────── -->
-    <section id="packages" data-page="02">
-      <div class="page-no stamp">002 / 006</div>
-      <div class="section-head reveal">
-        <div class="num">02</div>
-        <div class="title">Our Packages</div>
-      </div>
-
-      <div class="pkg-instructions reveal">Select one — click to choose your coverage.</div>
-
-      <div class="pkg-grid reveal">
-        <button type="button" class="pkg" data-id="pkg-1" data-name="Package 1" data-price="4550" data-sub="8 hrs · 1 photographer">
-          <div class="pkg-head">
-            <div class="pkg-name">Package 1</div>
-            <div class="pkg-price">$4,550</div>
+    <!-- ───────── 04 / Packages ───────── -->
+    <section id="packages">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-num">04 — Our packages</span>
+            <h2>Our<br />packages</h2>
           </div>
-          <div class="pkg-headline">8 Hours<br />1 Photographer</div>
-          <ul class="pkg-list">
-            <li>8 Hours Coverage</li>
-            <li>1 Lead Photographer</li>
-            <li>High Resolution Images</li>
-            <li>Mix of Colour + B&amp;W</li>
-            <li>Personalised Online Gallery</li>
-          </ul>
-          <div class="pkg-foot">
-            <span class="state"></span>
-            <span class="check" aria-hidden="true"></span>
-          </div>
-        </button>
-
-        <button type="button" class="pkg" data-id="pkg-2" data-name="Package 2" data-price="5550" data-sub="10 hrs · 2 photographers">
-          <div class="pkg-head">
-            <div class="pkg-name">Package 2</div>
-            <div class="pkg-price">$5,550</div>
-          </div>
-          <div class="pkg-headline">10 Hours<br />2 Photographers</div>
-          <ul class="pkg-list">
-            <li>10 Hours Coverage</li>
-            <li>2 Photographers*</li>
-            <li>High Resolution Images</li>
-            <li>Mix of Colour + B&amp;W</li>
-            <li>Personalised Online Gallery</li>
-          </ul>
-          <div class="footnote">* Second photographer to finish at end of location shoot.</div>
-          <div class="pkg-foot">
-            <span class="state"></span>
-            <span class="check" aria-hidden="true"></span>
-          </div>
-        </button>
-
-        <button type="button" class="pkg" data-id="pkg-3" data-name="Package 3" data-price="6250" data-sub="12 hrs · 2 photographers">
-          <div class="pkg-head">
-            <div class="pkg-name">Package 3</div>
-            <div class="pkg-price">$6,250</div>
-          </div>
-          <div class="pkg-headline">12 Hours<br />2 Photographers</div>
-          <ul class="pkg-list">
-            <li>12 Hours Coverage</li>
-            <li>2 Photographers*</li>
-            <li>High Resolution Images</li>
-            <li>Mix of Colour + B&amp;W</li>
-            <li>Personalised Online Gallery</li>
-          </ul>
-          <div class="footnote">* Second photographer to finish at end of location shoot.</div>
-          <div class="pkg-foot">
-            <span class="state"></span>
-            <span class="check" aria-hidden="true"></span>
-          </div>
-        </button>
-      </div>
-    </section>
-
-    <!-- ───────── Additions ───────── -->
-    <section id="additions" data-page="03">
-      <div class="page-no stamp">003 / 006</div>
-      <div class="section-head reveal">
-        <div class="num">03</div>
-        <div class="title">Additions</div>
-      </div>
-
-      <div class="pkg-instructions reveal">Select any — click to add or remove.</div>
-
-      <div class="add-grid reveal">
-        <button type="button" class="add" data-id="add-preshoot" data-name="Wedding Preshoot" data-price="1250" data-sub="1–2 hrs · 1 photographer">
-          <div class="add-head">
-            <div class="add-name">Wedding Preshoot</div>
-            <div class="add-price">$1,250</div>
-          </div>
-          <div class="add-sub">1–2 hrs coverage</div>
-          <div class="add-body">A preshoot ahead of the wedding — one photographer, online gallery, colour and B&amp;W mix.</div>
-          <div class="add-foot">
-            <span class="state"></span>
-            <span class="plus" aria-hidden="true"></span>
-          </div>
-        </button>
-
-        <button type="button" class="add" data-id="add-previews" data-name="Wedding Previews" data-price="550" data-sub="50–100 frames · 1–2 BD">
-          <div class="add-head">
-            <div class="add-name">Wedding Previews</div>
-            <div class="add-price">$550</div>
-          </div>
-          <div class="add-sub">50–100 frames</div>
-          <div class="add-body">A studio-curated edit of 50 to 100 frames, delivered within 1–2 business days of the wedding.</div>
-          <div class="add-foot">
-            <span class="state"></span>
-            <span class="plus" aria-hidden="true"></span>
-          </div>
-        </button>
-
-        <button type="button" class="add" data-id="add-film" data-name="Film Photography" data-price="750" data-sub="From — Portra-400">
-          <div class="add-head">
-            <div class="add-name">Film Photography</div>
-            <div class="add-price">From $750</div>
-          </div>
-          <div class="add-sub">Portra-400</div>
-          <div class="add-body">A roll-by-roll edit of 25 to 50 frames, shot on film alongside the digital. Pricing varies by stock.</div>
-          <div class="add-foot">
-            <span class="state"></span>
-            <span class="plus" aria-hidden="true"></span>
-          </div>
-        </button>
-
-        <button type="button" class="add" data-id="add-priority" data-name="Priority Wedding Edit" data-price="1200" data-sub="Full gallery in 1–2 weeks">
-          <div class="add-head">
-            <div class="add-name">Priority Edit</div>
-            <div class="add-price">$1,200</div>
-          </div>
-          <div class="add-sub">1–2 weeks</div>
-          <div class="add-body">The full gallery delivered in 1–2 weeks, in place of the standard 6–8.</div>
-          <div class="add-foot">
-            <span class="state"></span>
-            <span class="plus" aria-hidden="true"></span>
-          </div>
-        </button>
-
-        <button type="button" class="add" data-id="add-frame" data-name="Framed Print" data-price="1050" data-sub="20&quot; × 30&quot;">
-          <div class="add-head">
-            <div class="add-name">Framed Print</div>
-            <div class="add-price">$1,050</div>
-          </div>
-          <div class="add-sub">20" × 30"</div>
-          <div class="add-body">A framed print, finished in black, wooden or white.</div>
-          <div class="add-foot">
-            <span class="state"></span>
-            <span class="plus" aria-hidden="true"></span>
-          </div>
-        </button>
-
-        <button type="button" class="add" data-id="add-album" data-name="Wedding Album" data-price="1750" data-sub="Hand-bound · linen slipcase">
-          <div class="add-head">
-            <div class="add-name">Wedding Album</div>
-            <div class="add-price">$1,750</div>
-          </div>
-          <div class="add-sub">Hand-bound</div>
-          <div class="add-body">A hand-bound album, sequenced like an editorial spread. Heavy stock, foil-stamped cover, linen slipcase.</div>
-          <div class="add-foot">
-            <span class="state"></span>
-            <span class="plus" aria-hidden="true"></span>
-          </div>
-        </button>
-      </div>
-    </section>
-
-    <!-- ───────── FAQ ───────── -->
-    <section id="faq" data-page="04">
-      <div class="page-no stamp">004 / 006</div>
-      <div class="section-head reveal">
-        <div class="num">04</div>
-        <div class="title">FAQs</div>
-      </div>
-
-      <div class="pkg-instructions reveal">Tap a question to expand.</div>
-
-      <div class="faq reveal">
-
-        <details class="faq-item">
-          <summary>
-            <span class="faq-q">How far in advance should we book?</span>
-            <span class="faq-mark" aria-hidden="true"></span>
-          </summary>
-          <div class="faq-answer">
-            <p>We accept a limited number of weddings each year. For Sydney peak season — October through April — most dates fill nine to twelve months ahead. Earlier is safer.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            <span class="faq-q">Do you travel?</span>
-            <span class="faq-mark" aria-hidden="true"></span>
-          </summary>
-          <div class="faq-answer">
-            <p>Yes. Sydney is home, and we photograph interstate and internationally on commission. From July 2027 we run a dedicated European summer block — July through August — for weddings across Italy, France and beyond. Travel is quoted separately to the package.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            <span class="faq-q">How many images do we receive?</span>
-            <span class="faq-mark" aria-hidden="true"></span>
-          </summary>
-          <div class="faq-answer">
-            <p>The number isn't fixed — we deliver every frame that earns a place in the gallery. As a guide, an eight-hour wedding typically yields four to six hundred finished images. We over-shoot, then edit hard.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            <span class="faq-q">When do we receive our gallery?</span>
-            <span class="faq-mark" aria-hidden="true"></span>
-          </summary>
-          <div class="faq-answer">
-            <p>The full gallery is delivered within six to eight weeks. Add Wedding Previews for a studio-curated edit of fifty to one hundred frames within one to two business days, or Priority Edit for the full gallery in one to two weeks.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            <span class="faq-q">Do you shoot on film?</span>
-            <span class="faq-mark" aria-hidden="true"></span>
-          </summary>
-          <div class="faq-answer">
-            <p>Yes, as an addition alongside the digital. Twenty-five to fifty frames per wedding, on Portra-400 by default. Pricing varies by stock; available with any package.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            <span class="faq-q">Do we receive the raw files?</span>
-            <span class="faq-mark" aria-hidden="true"></span>
-          </summary>
-          <div class="faq-answer">
-            <p>We don't release raw files. The edit — colour, sequencing, restraint — is part of the work. You receive a finished gallery in colour and black &amp; white, sequenced as a complete story.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            <span class="faq-q">What secures the date?</span>
-            <span class="faq-mark" aria-hidden="true"></span>
-          </summary>
-          <div class="faq-answer">
-            <p>A signed contract and a deposit. Until both are received, the date is held informally and offered first-come.</p>
-          </div>
-        </details>
-
-      </div>
-    </section>
-
-    <!-- ───────── Your build + form ───────── -->
-    <section id="build" data-page="05">
-      <div class="page-no stamp">005 / 006</div>
-      <div class="section-head reveal">
-        <div class="num">05</div>
-        <div class="title">Your Build</div>
-      </div>
-
-      <div class="build-wrap reveal">
-
-        <div class="build-summary" id="summary">
-          <div id="summary-lines">
-            <div class="build-empty" id="empty-state">No selections yet — start with a package.</div>
-          </div>
-          <div class="build-total-row">
-            <div class="label">Total · AUD</div>
-            <div class="build-total" id="total">$0</div>
-          </div>
-          <div class="build-actions">
-            <button type="button" class="reset-btn" id="reset-btn" hidden>Reset build</button>
+          <div class="sec-meta">
+            Three tiers<br />
+            From $4,550
           </div>
         </div>
 
-        <form class="build-form" id="enquiry" novalidate>
-          <div class="field-row">
-            <div class="field">
-              <label for="f-name">Your Name</label>
-              <input id="f-name" name="name" type="text" autocomplete="name" required placeholder="First & last" />
-            </div>
-            <div class="field">
-              <label for="f-partner">Partner's Name</label>
-              <input id="f-partner" name="partner" type="text" placeholder="First & last" />
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="f-email">Email</label>
-              <input id="f-email" name="email" type="email" autocomplete="email" required placeholder="you@email.com" />
-            </div>
-            <div class="field">
-              <label for="f-phone">Phone</label>
-              <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="Optional" />
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="f-date">Wedding Date</label>
-              <input id="f-date" name="date" type="date" required />
-            </div>
-            <div class="field">
-              <label for="f-venue">Venue or Location</label>
-              <input id="f-venue" name="venue" type="text" placeholder="Sydney, Italy, TBC" />
-            </div>
-          </div>
-          <div class="field">
-            <label for="f-notes">Anything else?</label>
-            <textarea id="f-notes" name="notes" placeholder="Schedule, planner, references — anything that helps."></textarea>
-          </div>
+        <div class="pkg-instructions reveal">Select one — tap to choose your coverage.</div>
 
-          <button type="submit" class="btn" id="send-btn" disabled>
-            <span>Send to studio</span>
-            <span class="arrow">→</span>
+        <div class="pkg-grid reveal">
+          <button type="button" class="pkg" data-id="pkg-1" data-name="Package 1" data-price="4550" data-sub="8 hrs · 1 photographer">
+            <div class="pkg-num">
+              <span>Package 01</span>
+              <span class="price">$4,550</span>
+            </div>
+            <h3 class="pkg-title">8 hours</h3>
+            <p class="pkg-meta">1 lead photographer</p>
+            <p class="pkg-headline">Lead coverage for a single-location, single-day commission.</p>
+            <ul class="pkg-list">
+              <li>8 Hours Coverage</li>
+              <li>1 Lead Photographer</li>
+              <li>High Resolution Images</li>
+              <li>Mix of Colour + B&amp;W</li>
+              <li>Personalised Online Gallery</li>
+            </ul>
+            <span class="pkg-state" aria-hidden="true"></span>
           </button>
-          <div class="build-fineprint">
-            If you've enquired through our website, your details are pre-filled — just select a package and your email opens with your build ready to send. We reply within 1–2 business days.
+
+          <button type="button" class="pkg" data-id="pkg-2" data-name="Package 2" data-price="5550" data-sub="10 hrs · 2 photographers">
+            <div class="pkg-num">
+              <span>Package 02</span>
+              <span class="price">$5,550</span>
+            </div>
+            <h3 class="pkg-title">10 hours</h3>
+            <p class="pkg-meta">2 photographers*</p>
+            <p class="pkg-headline">Two angles through getting-ready and ceremony, narrowing to one through the night.</p>
+            <ul class="pkg-list">
+              <li>10 Hours Coverage</li>
+              <li>2 Photographers*</li>
+              <li>High Resolution Images</li>
+              <li>Mix of Colour + B&amp;W</li>
+              <li>Personalised Online Gallery</li>
+            </ul>
+            <p class="pkg-foot">* Second photographer to finish at end of location shoot.</p>
+            <span class="pkg-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="pkg" data-id="pkg-3" data-name="Package 3" data-price="6250" data-sub="12 hrs · 2 photographers">
+            <div class="pkg-num">
+              <span>Package 03</span>
+              <span class="price">$6,250</span>
+            </div>
+            <h3 class="pkg-title">12 hours</h3>
+            <p class="pkg-meta">2 photographers*</p>
+            <p class="pkg-headline">A full editorial day — from preparation through to the late hours of the reception.</p>
+            <ul class="pkg-list">
+              <li>12 Hours Coverage</li>
+              <li>2 Photographers*</li>
+              <li>High Resolution Images</li>
+              <li>Mix of Colour + B&amp;W</li>
+              <li>Personalised Online Gallery</li>
+            </ul>
+            <p class="pkg-foot">* Second photographer to finish at end of location shoot.</p>
+            <span class="pkg-state" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 05 / Additions ───────── -->
+    <section id="additions">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-num">05 — Additional items</span>
+            <h2>Additions</h2>
           </div>
-        </form>
+          <div class="sec-meta">
+            Pair with<br />any package
+          </div>
+        </div>
+
+        <div class="pkg-instructions reveal">Select any — tap to add or remove.</div>
+
+        <div class="add-grid reveal">
+          <button type="button" class="add" data-id="add-preshoot" data-name="Wedding Preshoot" data-price="1250" data-sub="1–2 hrs · 1 photographer">
+            <div class="add-head">
+              <h3 class="add-name">Wedding<br />preshoot</h3>
+              <span class="add-price">$1,250</span>
+            </div>
+            <div class="add-sub">1–2 hours coverage</div>
+            <p class="add-body">A preshoot ahead of the wedding — one lead photographer, high resolution images, a mix of colour and black-and-white, delivered to a personalised online gallery.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-previews" data-name="Wedding Previews" data-price="550" data-sub="50–100 frames · 1–2 BD">
+            <div class="add-head">
+              <h3 class="add-name">Wedding<br />previews</h3>
+              <span class="add-price">$550</span>
+            </div>
+            <div class="add-sub">50–100 previews</div>
+            <p class="add-body">A studio-curated edit of 50 to 100 frames, delivered within 1–2 business days of the wedding. Selection sits with us.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-film" data-name="Film Photography" data-price="750" data-sub="Portra-400 · from $750">
+            <div class="add-head">
+              <h3 class="add-name">Film<br />photography</h3>
+              <span class="add-price">From $750</span>
+            </div>
+            <div class="add-sub">Portra-400</div>
+            <p class="add-body">A roll-by-roll edit of 25 to 50 frames, shot on film alongside the digital coverage. Pricing varies by stock.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-priority" data-name="Priority Wedding Edit" data-price="1200" data-sub="1–2 weeks turnaround">
+            <div class="add-head">
+              <h3 class="add-name">Priority<br />wedding edit</h3>
+              <span class="add-price">$1,200</span>
+            </div>
+            <div class="add-sub">1–2 weeks turnaround</div>
+            <p class="add-body">The full gallery in 1–2 weeks, in place of the standard 6–8.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-print" data-name="Framed Print" data-price="1050" data-sub='20" × 30" framed'>
+            <div class="add-head">
+              <h3 class="add-name">Framed<br />print</h3>
+              <span class="add-price">$1,050</span>
+            </div>
+            <div class="add-sub">20" × 30"</div>
+            <p class="add-body">A framed print, finished in black, wooden or white.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-album" data-name="Wedding Album" data-price="1750" data-sub="Hand-bound · foil-stamped">
+            <div class="add-head">
+              <h3 class="add-name">Wedding<br />album</h3>
+              <span class="add-price">$1,750</span>
+            </div>
+            <div class="add-sub">Hand-bound, foil-stamped</div>
+            <p class="add-body">A hand-bound album, sequenced like an editorial spread. Heavy stock, foil-stamped cover, linen slipcase.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 06 / Albums (bloom panel, long-form) ───────── -->
+    <section id="albums" class="albums">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-num">06 — Wedding albums</span>
+            <h2>One object,<br />kept on<br />the shelf.</h2>
+          </div>
+          <div class="sec-meta">
+            From $1,750<br />
+            Hand-bound
+          </div>
+        </div>
+
+        <div class="album-spread reveal">
+          <div class="album-display">
+            A wedding album,<br />
+            hand-bound and<br />
+            edited like a<br />
+            magazine.
+          </div>
+          <div class="album-body">
+            <p>Heavy stock. Matte plates. Linen slipcase. The cover sleeves your names and the date in foil.</p>
+            <p>We sequence the spreads ourselves — the day reads as a story, not a contact sheet.</p>
+            <p>Designed to outlive the gallery.</p>
+          </div>
+        </div>
+
+        <div class="album-detail reveal">
+          <div class="item">
+            <div class="k">Stock</div>
+            <div class="v">Heavy matte plate</div>
+          </div>
+          <div class="item">
+            <div class="k">Cover</div>
+            <div class="v">Foil-stamped, linen slipcase</div>
+          </div>
+          <div class="item">
+            <div class="k">Sequencing</div>
+            <div class="v">Studio-edited spreads</div>
+          </div>
+        </div>
+
+        <div class="album-price reveal">
+          <span>Wedding album · paired with any package</span>
+          <strong>$1,750</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 07 / Enquire (build + form) ───────── -->
+    <section id="enquire" class="enquire">
+      <div class="wrap">
+        <h2 class="close-headline reveal">Available <span class="lift">dates</span> upon enquiry.</h2>
+
+        <div class="build-wrap reveal">
+          <div class="build-summary">
+            <div class="build-eyebrow">Your build</div>
+            <div id="summary-lines">
+              <div class="build-empty" id="empty-state">No selections yet — start with a package above.</div>
+            </div>
+            <div class="build-total-row">
+              <div class="label">Total · AUD</div>
+              <div class="build-total" id="total">$0</div>
+            </div>
+            <div class="build-actions">
+              <button type="button" class="reset-btn" id="reset-btn" hidden>Reset build</button>
+            </div>
+            <p class="build-fineprint">Pricing is indicative — film add-ons vary by stock, and bespoke requests are quoted on request. We confirm everything in writing before booking.</p>
+          </div>
+
+          <form class="build-form" id="enquiry" novalidate>
+            <div class="build-eyebrow">Your details</div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-name">Your name</label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required placeholder="First & last" />
+              </div>
+              <div class="field">
+                <label for="f-partner">Partner's name</label>
+                <input id="f-partner" name="partner" type="text" placeholder="First & last" />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-email">Email</label>
+                <input id="f-email" name="email" type="email" autocomplete="email" required placeholder="you@email.com" />
+              </div>
+              <div class="field">
+                <label for="f-phone">Phone</label>
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="Optional" />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-date">Wedding date</label>
+                <input id="f-date" name="date" type="date" required />
+              </div>
+              <div class="field">
+                <label for="f-venue">Venue or location</label>
+                <input id="f-venue" name="venue" type="text" placeholder="Sydney, Italy, TBC" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-notes">Anything else?</label>
+              <textarea id="f-notes" name="notes" placeholder="Schedule, planner, references — anything that helps."></textarea>
+            </div>
+
+            <button type="submit" class="btn-send" id="send-btn" disabled>
+              <span>Email build to studio</span>
+              <span class="arrow">→</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="colophon">
+          <span><a href="mailto:info@julianrinaldi.com.au">info@julianrinaldi.com.au</a></span>
+          <span><a href="https://instagram.com/julianrinaldiphotography" target="_blank" rel="noopener">@julianrinaldiphotography</a></span>
+          <span><a href="https://www.julianrinaldi.com.au" target="_blank" rel="noopener">julianrinaldi.com.au</a></span>
+          <span>ABN 98 119 727 056</span>
+          <span>Vol. 04 · 2026/27</span>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <footer>
-    <div>Julian Rinaldi Photography</div>
-    <div>info@julianrinaldi.com.au</div>
-    <div class="right">© 2026 · Identity Vol. 03</div>
-  </footer>
-
   <!-- ───────── Sticky build bar ───────── -->
   <div class="build-bar" id="bar">
     <div class="lhs">
-      <span>Build</span>
-      <span class="total" id="bar-total">$0</span>
-      <span class="count" id="bar-count">— select a package</span>
+      <span class="bar-label">Build</span>
+      <span class="bar-total" id="bar-total">$0</span>
+      <span class="bar-count" id="bar-count">— select a package</span>
     </div>
-    <div class="center"></div>
-    <button type="button" class="review" id="review-btn">
+    <div class="bar-spacer"></div>
+    <button type="button" class="bar-review" id="review-btn">
       <span>Review</span>
-      <span>↓</span>
+      <span aria-hidden="true">↓</span>
     </button>
   </div>
 
-<script>
-(() => {
-  // ──────────────────────────────────────────────────────────────
-  // STATE
-  // ──────────────────────────────────────────────────────────────
-  const STORE_KEY = 'jrp-build-v1';
-  const state = {
-    pkg: null,        // { id, name, price, sub }
-    addons: new Map() // id -> { id, name, price, sub }
-  };
+  <script>
+  (() => {
+    // ──────────────────────────────────────────────────────────────
+    // STATE + PERSISTENCE
+    // ──────────────────────────────────────────────────────────────
+    const STORE_KEY = 'jrp-build-v1';
+    const FORM_KEY  = 'jrp-form-v1';
+    const FORM_FIELDS = ['name','partner','email','phone','date','venue','notes'];
 
-  const fmt = n => '$' + Math.round(n).toLocaleString('en-AU');
+    const state = {
+      pkg: null,
+      addons: new Map()
+    };
 
-  // ──────────────────────────────────────────────────────────────
-  // PERSISTENCE
-  // ──────────────────────────────────────────────────────────────
-  const save = () => {
-    try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({
-        pkg: state.pkg,
-        addons: [...state.addons.values()]
-      }));
-    } catch(_) {}
-  };
-  const load = () => {
-    try {
-      const raw = localStorage.getItem(STORE_KEY);
-      if (!raw) return;
-      const data = JSON.parse(raw);
-      if (data.pkg) state.pkg = data.pkg;
-      if (Array.isArray(data.addons)) data.addons.forEach(a => state.addons.set(a.id, a));
-    } catch(_) {}
-  };
+    const fmt = n => '$' + Math.round(n).toLocaleString('en-AU');
 
-  // ──────────────────────────────────────────────────────────────
-  // SELECTORS
-  // ──────────────────────────────────────────────────────────────
-  const $pkgs = document.querySelectorAll('.pkg');
-  const $adds = document.querySelectorAll('.add');
-  const $summary = document.getElementById('summary-lines');
-  const $empty = document.getElementById('empty-state');
-  const $total = document.getElementById('total');
-  const $barTotal = document.getElementById('bar-total');
-  const $barCount = document.getElementById('bar-count');
-  const $bar = document.getElementById('bar');
-  const $review = document.getElementById('review-btn');
-  const $send = document.getElementById('send-btn');
-  const $form = document.getElementById('enquiry');
-  const $reset = document.getElementById('reset-btn');
+    const save = () => {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify({
+          pkg: state.pkg,
+          addons: [...state.addons.values()]
+        }));
+      } catch(_) {}
+    };
+    const load = () => {
+      try {
+        const raw = localStorage.getItem(STORE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (data.pkg) state.pkg = data.pkg;
+        if (Array.isArray(data.addons)) data.addons.forEach(a => state.addons.set(a.id, a));
+      } catch(_) {}
+    };
 
-  // ──────────────────────────────────────────────────────────────
-  // ANIMATED COUNTER
-  // ──────────────────────────────────────────────────────────────
-  let lastTotal = 0;
-  const animateTotal = (next) => {
-    const start = lastTotal;
-    const delta = next - start;
-    const dur = 480;
-    const t0 = performance.now();
-    const tick = (now) => {
-      const p = Math.min(1, (now - t0) / dur);
-      const eased = 1 - Math.pow(1 - p, 3);
-      const v = start + delta * eased;
+    // ──────────────────────────────────────────────────────────────
+    // SELECTORS
+    // ──────────────────────────────────────────────────────────────
+    const $pkgs   = document.querySelectorAll('.pkg');
+    const $adds   = document.querySelectorAll('.add');
+    const $lines  = document.getElementById('summary-lines');
+    const $total  = document.getElementById('total');
+    const $barTotal = document.getElementById('bar-total');
+    const $barCount = document.getElementById('bar-count');
+    const $bar    = document.getElementById('bar');
+    const $review = document.getElementById('review-btn');
+    const $send   = document.getElementById('send-btn');
+    const $form   = document.getElementById('enquiry');
+    const $reset  = document.getElementById('reset-btn');
+
+    // ──────────────────────────────────────────────────────────────
+    // ANIMATED COUNTER
+    // ──────────────────────────────────────────────────────────────
+    let lastTotal = 0;
+    const setTotalText = (v) => {
       $total.textContent = fmt(v);
       $barTotal.textContent = fmt(v);
-      if (p < 1) requestAnimationFrame(tick);
-      else lastTotal = next;
     };
-    requestAnimationFrame(tick);
-  };
+    const animateTotal = (next) => {
+      const start = lastTotal;
+      const delta = next - start;
+      // Hidden tab pauses rAF — write directly so totals are always correct.
+      if (delta === 0 || document.hidden) {
+        setTotalText(next);
+        lastTotal = next;
+        return;
+      }
+      const dur = 480;
+      const t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setTotalText(start + delta * eased);
+        if (p < 1) requestAnimationFrame(tick);
+        else lastTotal = next;
+      };
+      requestAnimationFrame(tick);
+    };
 
-  // ──────────────────────────────────────────────────────────────
-  // RENDER
-  // ──────────────────────────────────────────────────────────────
-  const render = () => {
-    // Cards visual state
-    $pkgs.forEach(b => b.classList.toggle('selected', state.pkg && b.dataset.id === state.pkg.id));
-    $adds.forEach(b => b.classList.toggle('selected', state.addons.has(b.dataset.id)));
+    // ──────────────────────────────────────────────────────────────
+    // RENDER
+    // ──────────────────────────────────────────────────────────────
+    const lineHTML = (kind, item) => `
+      <div class="build-line">
+        <div class="name-cell">
+          <span>${item.name}</span>
+          <span class="name-sub">${item.sub || ''}</span>
+        </div>
+        <span class="price">${fmt(item.price)}</span>
+        <button type="button" class="remove" data-remove="${item.id}" data-kind="${kind}" aria-label="Remove ${item.name}">Remove</button>
+      </div>`;
 
-    // Summary
-    const lines = [];
-    if (state.pkg) {
-      lines.push(line('package', state.pkg, false));
-    }
-    [...state.addons.values()].forEach(a => lines.push(line('addon', a, true)));
+    const render = () => {
+      // Card visual states
+      $pkgs.forEach(b => b.classList.toggle('selected', state.pkg && b.dataset.id === state.pkg.id));
+      $adds.forEach(b => b.classList.toggle('selected', state.addons.has(b.dataset.id)));
 
-    $summary.innerHTML = lines.length
-      ? lines.join('')
-      : '<div class="build-empty" id="empty-state">No selections yet — start with a package.</div>';
+      // Summary lines
+      const rows = [];
+      if (state.pkg) rows.push(lineHTML('package', state.pkg));
+      [...state.addons.values()].forEach(a => rows.push(lineHTML('addon', a)));
 
-    // Wire remove buttons
-    $summary.querySelectorAll('[data-remove]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.remove;
-        const kind = btn.dataset.kind;
-        if (kind === 'package') state.pkg = null;
-        else state.addons.delete(id);
-        save(); render();
+      $lines.innerHTML = rows.length
+        ? rows.join('')
+        : '<div class="build-empty">No selections yet — start with a package above.</div>';
+
+      // Wire remove buttons
+      $lines.querySelectorAll('[data-remove]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.remove;
+          if (btn.dataset.kind === 'package') state.pkg = null;
+          else state.addons.delete(id);
+          save(); render();
+        });
       });
-    });
 
-    // Total
-    let total = 0;
-    if (state.pkg) total += state.pkg.price;
-    state.addons.forEach(a => total += a.price);
-    animateTotal(total);
+      // Total
+      let total = 0;
+      if (state.pkg) total += state.pkg.price;
+      state.addons.forEach(a => total += a.price);
+      animateTotal(total);
 
-    // Bar
-    const count = (state.pkg ? 1 : 0) + state.addons.size;
-    $barCount.textContent = state.pkg
-      ? (state.addons.size ? `${state.addons.size} addition${state.addons.size>1?'s':''}` : 'package selected')
-      : '— select a package';
-    $bar.classList.toggle('show', count > 0);
+      // Sticky bar state
+      const count = (state.pkg ? 1 : 0) + state.addons.size;
+      $barCount.textContent = state.pkg
+        ? (state.addons.size ? `${state.addons.size} addition${state.addons.size > 1 ? 's' : ''}` : 'package selected')
+        : '— select a package';
+      $bar.classList.toggle('show', count > 0);
+      document.body.classList.toggle('has-bar', count > 0);
 
-    // Send button enabled only when a package is selected
-    $send.disabled = !state.pkg;
+      // Submit only when a package is chosen
+      $send.disabled = !state.pkg;
 
-    // Reset button visible only when there's something to reset
-    const hasAny = !!state.pkg || state.addons.size > 0;
-    $reset.hidden = !hasAny;
-    if (!hasAny) clearResetConfirm();
-  };
+      // Reset button visible only when there's something to reset
+      const hasAny = !!state.pkg || state.addons.size > 0;
+      $reset.hidden = !hasAny;
+      if (!hasAny) clearResetConfirm();
+    };
 
-  const line = (kind, item, removable) => `
-    <div class="build-line">
-      <div class="name-cell">
-        <span>${item.name}</span>
-        <span class="name-sub">${item.sub || ''}</span>
-      </div>
-      <span>${fmt(item.price)}</span>
-      <button type="button" class="remove" data-remove="${item.id}" data-kind="${kind}" aria-label="Remove ${item.name}">Remove</button>
-    </div>`;
+    // ──────────────────────────────────────────────────────────────
+    // CARD CLICK
+    // ──────────────────────────────────────────────────────────────
+    $pkgs.forEach(b => b.addEventListener('click', () => {
+      const id = b.dataset.id;
+      if (state.pkg && state.pkg.id === id) {
+        state.pkg = null;
+      } else {
+        state.pkg = {
+          id,
+          name: b.dataset.name,
+          price: parseFloat(b.dataset.price),
+          sub: b.dataset.sub
+        };
+      }
+      save(); render();
+    }));
 
-  // ──────────────────────────────────────────────────────────────
-  // EVENTS — package + add-on cards
-  // ──────────────────────────────────────────────────────────────
-  $pkgs.forEach(b => b.addEventListener('click', () => {
-    const id = b.dataset.id;
-    if (state.pkg && state.pkg.id === id) {
-      state.pkg = null; // toggle off
-    } else {
-      state.pkg = {
+    $adds.forEach(b => b.addEventListener('click', () => {
+      const id = b.dataset.id;
+      if (state.addons.has(id)) state.addons.delete(id);
+      else state.addons.set(id, {
         id,
         name: b.dataset.name,
         price: parseFloat(b.dataset.price),
         sub: b.dataset.sub
-      };
-    }
-    save(); render();
-  }));
+      });
+      save(); render();
+    }));
 
-  $adds.forEach(b => b.addEventListener('click', () => {
-    const id = b.dataset.id;
-    if (state.addons.has(id)) state.addons.delete(id);
-    else state.addons.set(id, {
-      id,
-      name: b.dataset.name,
-      price: parseFloat(b.dataset.price),
-      sub: b.dataset.sub
+    // Review button — smooth scroll to enquire
+    $review.addEventListener('click', () => {
+      document.getElementById('enquire').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-    save(); render();
-  }));
 
-  // Review button — smooth scroll to build
-  $review.addEventListener('click', () => {
-    document.getElementById('build').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-
-  // ──────────────────────────────────────────────────────────────
-  // RESET — two-tap confirm
-  // ──────────────────────────────────────────────────────────────
-  let resetTimer = null;
-  const clearResetConfirm = () => {
-    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
-    $reset.classList.remove('confirming');
-    $reset.textContent = 'Reset build';
-  };
-  $reset.addEventListener('click', () => {
-    if ($reset.classList.contains('confirming')) {
-      state.pkg = null;
-      state.addons.clear();
-      try { localStorage.removeItem(STORE_KEY); } catch(_) {}
-      clearResetConfirm();
-      lastTotal = 0;
-      render();
-    } else {
-      $reset.classList.add('confirming');
-      $reset.textContent = 'Tap again to confirm';
-      if (resetTimer) clearTimeout(resetTimer);
-      resetTimer = setTimeout(clearResetConfirm, 3000);
+    // ──────────────────────────────────────────────────────────────
+    // RESET — two-tap confirm
+    // ──────────────────────────────────────────────────────────────
+    let resetTimer = null;
+    function clearResetConfirm() {
+      if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+      $reset.classList.remove('confirming');
+      $reset.textContent = 'Reset build';
     }
-  });
-
-  // ──────────────────────────────────────────────────────────────
-  // FORM — mailto submission
-  // ──────────────────────────────────────────────────────────────
-  $form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!state.pkg) return;
-
-    const f = new FormData($form);
-    const data = Object.fromEntries(f.entries());
-
-    if (!data.name || !data.email || !data.date) {
-      // light client-side hint — focus the first empty required field
-      ['name','email','date'].forEach(k => {
-        if (!data[k]) document.getElementById('f-' + k).focus();
-      });
-      return;
-    }
-
-    // Build human-readable email body
-    const partner = data.partner ? ` & ${data.partner}` : '';
-    const subject = `Wedding enquiry — ${data.name}${partner} — ${data.date}`;
-
-    const lines = [];
-    lines.push(`Hi Julian,`);
-    lines.push(``);
-    lines.push(`We'd like to enquire about wedding photography. Our build below.`);
-    lines.push(``);
-    lines.push(`— DETAILS —`);
-    lines.push(`Name: ${data.name}`);
-    if (data.partner) lines.push(`Partner: ${data.partner}`);
-    lines.push(`Email: ${data.email}`);
-    if (data.phone) lines.push(`Phone: ${data.phone}`);
-    lines.push(`Wedding date: ${data.date}`);
-    if (data.venue) lines.push(`Venue / location: ${data.venue}`);
-    lines.push(``);
-    lines.push(`— BUILD —`);
-    lines.push(`${state.pkg.name} (${state.pkg.sub}) — ${fmt(state.pkg.price)}`);
-    if (state.addons.size) {
-      lines.push(``);
-      lines.push(`Additions:`);
-      state.addons.forEach(a => {
-        lines.push(`· ${a.name}${a.sub ? ` (${a.sub})` : ''} — ${fmt(a.price)}`);
-      });
-    }
-    let total = state.pkg.price;
-    state.addons.forEach(a => total += a.price);
-    lines.push(``);
-    lines.push(`Total (AUD): ${fmt(total)}`);
-    if (data.notes && data.notes.trim()) {
-      lines.push(``);
-      lines.push(`— NOTES —`);
-      lines.push(data.notes.trim());
-    }
-    lines.push(``);
-    lines.push(`Thanks,`);
-    lines.push(data.name);
-
-    const body = lines.join('\r\n');
-    const href = 'mailto:info@julianrinaldi.com.au'
-      + '?subject=' + encodeURIComponent(subject)
-      + '&body=' + encodeURIComponent(body);
-
-    window.location.href = href;
-  });
-
-  // ──────────────────────────────────────────────────────────────
-  // SECTION-AWARE NAV + REVEAL
-  // ──────────────────────────────────────────────────────────────
-  const sections = document.querySelectorAll('main section[id]');
-  const navLinks = document.querySelectorAll('.meta-nav a');
-  const linkById = new Map();
-  navLinks.forEach(a => {
-    const id = a.getAttribute('href').slice(1);
-    linkById.set(id, a);
-  });
-
-  const navObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        navLinks.forEach(a => a.classList.remove('active'));
-        const link = linkById.get(e.target.id);
-        if (link) link.classList.add('active');
+    $reset.addEventListener('click', () => {
+      if ($reset.classList.contains('confirming')) {
+        state.pkg = null;
+        state.addons.clear();
+        try { localStorage.removeItem(STORE_KEY); } catch(_) {}
+        clearResetConfirm();
+        lastTotal = 0;
+        render();
+      } else {
+        $reset.classList.add('confirming');
+        $reset.textContent = 'Tap again to confirm';
+        if (resetTimer) clearTimeout(resetTimer);
+        resetTimer = setTimeout(clearResetConfirm, 3000);
       }
     });
-  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-  sections.forEach(s => navObs.observe(s));
 
-  const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        revealObs.unobserve(e.target);
+    // ──────────────────────────────────────────────────────────────
+    // FORM — mailto submission
+    // ──────────────────────────────────────────────────────────────
+    $form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!state.pkg) return;
+
+      const f = new FormData($form);
+      const data = Object.fromEntries(f.entries());
+
+      // Light validation — focus first missing required
+      if (!data.name || !data.email || !data.date) {
+        ['name','email','date'].forEach(k => {
+          if (!data[k]) document.getElementById('f-' + k).focus();
+        });
+        return;
       }
+
+      const partner = data.partner ? ` & ${data.partner}` : '';
+      const subject = `Wedding enquiry — ${data.name}${partner} — ${data.date}`;
+
+      const lines = [];
+      lines.push('Hi Julian,');
+      lines.push('');
+      lines.push("We'd like to enquire about wedding photography. Our build below.");
+      lines.push('');
+      lines.push('— DETAILS —');
+      lines.push(`Name: ${data.name}`);
+      if (data.partner) lines.push(`Partner: ${data.partner}`);
+      lines.push(`Email: ${data.email}`);
+      if (data.phone) lines.push(`Phone: ${data.phone}`);
+      lines.push(`Wedding date: ${data.date}`);
+      if (data.venue) lines.push(`Venue / location: ${data.venue}`);
+      lines.push('');
+      lines.push('— BUILD —');
+      lines.push(`${state.pkg.name} (${state.pkg.sub}) — ${fmt(state.pkg.price)}`);
+      if (state.addons.size) {
+        lines.push('');
+        lines.push('Additions:');
+        state.addons.forEach(a => {
+          lines.push(`· ${a.name}${a.sub ? ` (${a.sub})` : ''} — ${fmt(a.price)}`);
+        });
+      }
+      let total = state.pkg.price;
+      state.addons.forEach(a => total += a.price);
+      lines.push('');
+      lines.push(`Total (AUD): ${fmt(total)}`);
+      if (data.notes && data.notes.trim()) {
+        lines.push('');
+        lines.push('— NOTES —');
+        lines.push(data.notes.trim());
+      }
+      lines.push('');
+      lines.push('Thanks,');
+      lines.push(data.name);
+
+      const body = lines.join('\r\n');
+      const href = 'mailto:info@julianrinaldi.com.au'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+
+      window.location.href = href;
     });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
-  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  // ──────────────────────────────────────────────────────────────
-  // CUSTOM CURSOR
-  // ──────────────────────────────────────────────────────────────
-  const cursor = document.querySelector('.cursor');
-  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    document.body.classList.add('has-cursor');
-    let x = window.innerWidth/2, y = window.innerHeight/2;
-    let cx = x, cy = y;
-    document.addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; });
-    const lerp = () => {
-      cx += (x - cx) * 0.22;
-      cy += (y - cy) * 0.22;
-      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-      requestAnimationFrame(lerp);
-    };
-    requestAnimationFrame(lerp);
-
-    const hoverables = 'a, button, input, textarea, select, [role="button"]';
-    document.querySelectorAll(hoverables).forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-  }
-
-  // ──────────────────────────────────────────────────────────────
-  // FORM PRE-FILL — URL params first, then localStorage
-  // ──────────────────────────────────────────────────────────────
-  const FORM_KEY = 'jrp-form-v1';
-  const formFields = ['name', 'partner', 'email', 'phone', 'date', 'venue', 'notes'];
-
-  const fillForm = (data) => {
-    formFields.forEach(k => {
-      const el = document.getElementById('f-' + k);
-      if (el && data[k] && !el.value) el.value = data[k];
-    });
-  };
-
-  const saveFormToStorage = () => {
-    try {
-      const data = {};
-      formFields.forEach(k => {
+    // ──────────────────────────────────────────────────────────────
+    // FORM PRE-FILL — URL params first, then localStorage
+    // ──────────────────────────────────────────────────────────────
+    const fillForm = (data) => {
+      FORM_FIELDS.forEach(k => {
         const el = document.getElementById('f-' + k);
-        if (el && el.value) data[k] = el.value;
+        if (el && data[k] && !el.value) el.value = data[k];
       });
-      localStorage.setItem(FORM_KEY, JSON.stringify(data));
-    } catch(_) {}
-  };
-
-  const initFormPrefill = () => {
-    const params = new URLSearchParams(window.location.search);
-    const fromURL = {};
-    formFields.forEach(k => {
-      const v = params.get(k);
-      if (v) fromURL[k] = v.trim();
+    };
+    const saveFormToStorage = () => {
+      try {
+        const data = {};
+        FORM_FIELDS.forEach(k => {
+          const el = document.getElementById('f-' + k);
+          if (el && el.value) data[k] = el.value;
+        });
+        localStorage.setItem(FORM_KEY, JSON.stringify(data));
+      } catch(_) {}
+    };
+    const initFormPrefill = () => {
+      const params = new URLSearchParams(window.location.search);
+      const fromURL = {};
+      FORM_FIELDS.forEach(k => {
+        const v = params.get(k);
+        if (v) fromURL[k] = v.trim();
+      });
+      if (Object.keys(fromURL).length) {
+        fillForm(fromURL);
+        saveFormToStorage();
+        return;
+      }
+      try {
+        const raw = localStorage.getItem(FORM_KEY);
+        if (raw) fillForm(JSON.parse(raw));
+      } catch(_) {}
+    };
+    document.querySelectorAll('#enquiry input, #enquiry textarea').forEach(el => {
+      el.addEventListener('input', saveFormToStorage);
     });
-    if (Object.keys(fromURL).length) {
-      fillForm(fromURL);
-      saveFormToStorage();
-      return;
+
+    // ──────────────────────────────────────────────────────────────
+    // REVEAL-ON-SCROLL
+    // ──────────────────────────────────────────────────────────────
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-in'));
     }
-    try {
-      const raw = localStorage.getItem(FORM_KEY);
-      if (raw) fillForm(JSON.parse(raw));
-    } catch(_) {}
-  };
 
-  // Persist every keystroke so a refresh won't lose the lead's details
-  document.querySelectorAll('#enquiry input, #enquiry textarea').forEach(el => {
-    el.addEventListener('input', saveFormToStorage);
-  });
-
-  // Clear stored form when the lead resets the build (only the build resets, contact stays)
-  // (form is intentionally NOT cleared on reset — they keep their identity)
-
-  // ──────────────────────────────────────────────────────────────
-  // INIT
-  // ──────────────────────────────────────────────────────────────
-  load();
-  initFormPrefill();
-  render();
-})();
-</script>
+    // ──────────────────────────────────────────────────────────────
+    // INIT
+    // ──────────────────────────────────────────────────────────────
+    load();
+    initFormPrefill();
+    render();
+  })();
+  </script>
 </body>
 </html>
