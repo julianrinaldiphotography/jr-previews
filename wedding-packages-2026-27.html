@@ -1788,10 +1788,20 @@
     // ──────────────────────────────────────────────────────────────
     // FORM PRE-FILL — URL params first, then localStorage
     // ──────────────────────────────────────────────────────────────
+    const normalizeDate = (v) => {
+      if (!v) return v;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+      const m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+      return v;
+    };
     const fillForm = (data) => {
       FORM_FIELDS.forEach(k => {
         const el = document.getElementById('f-' + k);
-        if (el && data[k] && !el.value) el.value = data[k];
+        if (!el) return;
+        let v = data[k];
+        if (k === 'date') v = normalizeDate(v);
+        if (v && !el.value) el.value = v;
       });
     };
     const saveFormToStorage = () => {
