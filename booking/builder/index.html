@@ -1,0 +1,1738 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#FFFFFF" />
+<title>Julian Rinaldi — Package Builder</title>
+<meta name="description" content="A private package builder for couples enquiring with Julian Rinaldi Photography." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="icon" type="image/svg+xml" href="../../J-favicon.svg" />
+<style>
+  /* ────────────────────────────────────────────────────────────────
+     IDENTITY VOL. 04 — chassis
+     Pure white, pure black, NHG Display + Text, neon as accent only.
+     ──────────────────────────────────────────────────────────────── */
+
+  @font-face {
+    font-family: 'NHG Display';
+    src: local('NeueHaasGroteskDisplayPro-75Bd'),
+         local('Neue Haas Grotesk Display Pro 75 Bold'),
+         local('NHaasGroteskDSPro-75Bd');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHG Display';
+    src: local('NeueHaasGroteskDisplayPro-65Md'),
+         local('Neue Haas Grotesk Display Pro 65 Medium'),
+         local('NHaasGroteskDSPro-65Md');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHG Text';
+    src: local('NeueHaasGroteskTextPro-55Rg'),
+         local('Neue Haas Grotesk Text Pro 55 Roman'),
+         local('NHaasGroteskTXPro-55Rg');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'NHG Text';
+    src: local('NeueHaasGroteskTextPro-65Md'),
+         local('Neue Haas Grotesk Text Pro 65 Medium'),
+         local('NHaasGroteskTXPro-65Md');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+
+  :root {
+    --white:      #FFFFFF;
+    --black:      #000000;
+    --ink:        #0A0A0A;
+    --neon:       #F0F788;
+    --bloom:      #F4F8B5;
+    --bloom-deep: #ECF29C;
+    --ash:        #6D6E71;
+    --rule:       rgba(0,0,0,1);
+    --rule-soft:  rgba(0,0,0,0.12);
+    --rule-mid:   rgba(0,0,0,0.35);
+
+    --pad-x: clamp(20px, 4vw, 56px);
+    --gap-y: clamp(72px, 12vh, 160px);
+
+    --display: 'NHG Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --text:    'NHG Text', 'NHG Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+    --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-io: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* No italics, ever */
+  em, i, cite, address, dfn, var { font-style: normal; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: var(--text);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--neon); color: var(--ink); }
+
+  a { color: inherit; text-decoration: none; }
+
+  img, svg { display: block; max-width: 100%; }
+
+  /* ────────────────────────────────────────────────────────────────
+     META BAR
+     ──────────────────────────────────────────────────────────────── */
+  .meta-bar {
+    position: sticky; top: 0; z-index: 50;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(16px, 4vw, 40px);
+    padding: 18px var(--pad-x);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .j-mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    background: var(--ink); color: var(--white);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    padding-bottom: 2px;
+    transition: background 200ms var(--ease-io);
+  }
+  .j-mark:hover { background: var(--neon); color: var(--ink); }
+
+  .meta-center {
+    justify-self: center;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 360ms var(--ease), transform 360ms var(--ease);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70vw;
+  }
+  .meta-center.live {
+    opacity: 1;
+    transform: none;
+  }
+  .meta-center .sep { opacity: 0.4; margin: 0 0.6em; }
+
+  .meta-right { justify-self: end; opacity: 0.7; }
+
+  @media (max-width: 720px) {
+    .meta-bar { grid-template-columns: auto 1fr; }
+    .meta-center { display: none; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     SECTION BASE
+     ──────────────────────────────────────────────────────────────── */
+  main { display: block; }
+
+  section {
+    padding: var(--gap-y) var(--pad-x);
+    border-top: 1px solid var(--rule-soft);
+  }
+  section:first-of-type { border-top: 0; padding-top: clamp(56px, 8vh, 96px); }
+
+  .wrap { max-width: 1440px; margin: 0 auto; }
+
+  .sec-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    padding-bottom: 24px;
+    margin-bottom: clamp(40px, 6vh, 72px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .sec-num {
+    display: block;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .sec-head h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(32px, 5vw, 72px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+  .sec-head .sec-meta {
+    text-align: right;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.6;
+    opacity: 0.7;
+    white-space: nowrap;
+  }
+  .sec-instructions {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 24px;
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     COVER
+     ──────────────────────────────────────────────────────────────── */
+  .cover {
+    padding: clamp(56px, 9vh, 104px) var(--pad-x) clamp(56px, 8vh, 96px);
+  }
+  .cover-meta {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: clamp(32px, 6vh, 56px);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .cover-meta .l { font-weight: 700; }
+  .cover-meta .r { opacity: 0.7; }
+
+  .cover-headline {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(40px, 9vw, 168px);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    max-width: 14ch;
+  }
+  .cover-headline .accent {
+    background: var(--neon);
+    padding: 0 0.04em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .cover-foot {
+    margin-top: clamp(40px, 6vh, 72px);
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(16px, 4vw, 64px);
+    align-items: start;
+  }
+  .cover-tagline {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(16px, 1.6vw, 22px);
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    max-width: 36ch;
+  }
+  .cover-stamp {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.7;
+    text-align: right;
+  }
+  .cover-stamp strong { font-weight: 700; }
+
+  @media (max-width: 720px) {
+    .cover-foot { grid-template-columns: 1fr; }
+    .cover-stamp { text-align: left; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     01 — IDENTITY (name + date)
+     ──────────────────────────────────────────────────────────────── */
+  .identity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 64px);
+  }
+  .field { display: grid; gap: 6px; }
+  .field label {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .field input,
+  .field textarea {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(18px, 2vw, 24px);
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    padding: 14px 0;
+    border-radius: 0;
+    width: 100%;
+    transition: border-color 220ms var(--ease-io);
+  }
+  .field input::placeholder, .field textarea::placeholder {
+    color: var(--ash);
+    opacity: 0.45;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+  .field input:focus, .field textarea:focus {
+    outline: 0;
+    border-bottom-color: var(--ink);
+  }
+  /* Native date input control sizing/colour */
+  .field input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.4;
+    filter: invert(0%);
+    transition: opacity 200ms var(--ease-io);
+  }
+  .field input[type="date"]:hover::-webkit-calendar-picker-indicator,
+  .field input[type="date"]:focus::-webkit-calendar-picker-indicator {
+    opacity: 1;
+  }
+
+  @media (max-width: 720px) {
+    .identity-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     02 — COVERAGE (3 tiers)
+     ──────────────────────────────────────────────────────────────── */
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  .pkg {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--white);
+    color: var(--ink);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    border: 0;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: clamp(32px, 4vw, 56px);
+    display: flex; flex-direction: column;
+    transition: background 280ms var(--ease-io), color 280ms var(--ease-io);
+    min-height: clamp(380px, 50vh, 540px);
+    position: relative;
+  }
+  .pkg:focus-visible {
+    outline: 2px solid var(--neon);
+    outline-offset: -2px;
+  }
+  .pkg:hover { background: var(--bloom); }
+  .pkg.selected {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .pkg.selected:hover { background: var(--ink); }
+  .pkg.selected .pkg-headline { color: rgba(255,255,255,0.7); }
+  .pkg.selected .pkg-foot { color: rgba(255,255,255,0.55); }
+  .pkg.selected .pkg-list { border-top-color: rgba(255,255,255,0.55); }
+  .pkg.selected .pkg-list li { border-bottom-color: rgba(255,255,255,0.18); }
+  .pkg.selected .pkg-list li:last-child { border-bottom-color: transparent; }
+
+  .pkg-state {
+    position: absolute;
+    top: clamp(20px, 2.4vw, 28px);
+    right: clamp(20px, 2.4vw, 28px);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash);
+    opacity: 0;
+    transition: opacity 280ms var(--ease-io);
+  }
+  .pkg-state::before { content: 'Tap to select'; }
+  .pkg:hover .pkg-state { opacity: 1; }
+  .pkg.selected .pkg-state { opacity: 1; color: var(--neon); }
+  .pkg.selected .pkg-state::before { content: '✓ Selected'; }
+
+  .pkg-num {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: clamp(32px, 5vh, 56px);
+    display: flex; justify-content: space-between;
+  }
+  .pkg-num .price {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .pkg-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(32px, 3.6vw, 56px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .pkg-meta {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: clamp(20px, 3vh, 32px);
+  }
+  .pkg.selected .pkg-meta { color: rgba(255,255,255,0.55); }
+  .pkg-headline {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: auto;
+    padding-bottom: clamp(28px, 4vh, 48px);
+  }
+  .pkg-list {
+    list-style: none;
+    border-top: 1px solid var(--rule);
+  }
+  .pkg-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .pkg-list li:last-child { border-bottom: 0; }
+  .pkg-foot {
+    margin-top: 14px;
+    font-family: var(--text);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ash);
+  }
+
+  @media (max-width: 900px) {
+    .pkg-grid { grid-template-columns: 1fr; }
+    .pkg { min-height: 0; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     03 — ADDITIONS
+     ──────────────────────────────────────────────────────────────── */
+  .add-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .add {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--white);
+    color: var(--ink);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    border: 0;
+    padding: clamp(28px, 3.4vw, 48px) clamp(24px, 2.8vw, 40px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; flex-direction: column;
+    transition: background 280ms var(--ease-io), color 280ms var(--ease-io);
+    position: relative;
+  }
+  .add:focus-visible {
+    outline: 2px solid var(--neon);
+    outline-offset: -2px;
+  }
+  .add:nth-child(odd) { border-right: 1px solid var(--rule); }
+  .add:hover { background: var(--bloom); }
+  .add.selected {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .add.selected:hover { background: var(--ink); }
+  .add.selected .add-sub {
+    color: rgba(255,255,255,0.55);
+    border-bottom-color: rgba(255,255,255,0.18);
+  }
+
+  .add-state {
+    position: absolute;
+    top: clamp(20px, 2.4vw, 28px);
+    right: clamp(20px, 2.4vw, 28px);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash);
+    opacity: 0;
+    transition: opacity 280ms var(--ease-io);
+  }
+  .add-state::before { content: '+ Add'; }
+  .add:hover .add-state { opacity: 1; }
+  .add.selected .add-state { opacity: 1; color: var(--neon); }
+  .add.selected .add-state::before { content: '✓ Added'; }
+
+  .add-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .add-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(22px, 2.2vw, 32px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  .add-price {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(14px, 1.2vw, 16px);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
+  }
+  .add-sub {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .add-body {
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 50ch;
+  }
+
+  @media (max-width: 720px) {
+    .add-grid { grid-template-columns: 1fr; }
+    .add { border-right: 0 !important; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     04 — NOTES
+     ──────────────────────────────────────────────────────────────── */
+  .notes-wrap .field textarea {
+    min-height: 112px;
+    resize: vertical;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(15px, 1.4vw, 18px);
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    text-transform: none;
+  }
+  .notes-wrap .field textarea::placeholder {
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     05 — INVESTMENT (summary + send)
+     ──────────────────────────────────────────────────────────────── */
+  .invest {
+    padding-top: clamp(96px, 14vh, 168px);
+    padding-bottom: clamp(72px, 10vh, 128px);
+  }
+  .close-headline {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(48px, 9vw, 144px);
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    max-width: 12ch;
+    margin-bottom: clamp(48px, 7vh, 80px);
+  }
+  .close-headline .lift {
+    background: var(--neon);
+    padding: 0 0.04em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .build-eyebrow {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .build-line {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .build-line .name-cell { display: grid; gap: 4px; }
+  .build-line .name-sub {
+    font-family: var(--text);
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .build-line .price {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .build-line .remove {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--ash);
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: color 220ms var(--ease-io);
+  }
+  .build-line .remove:hover {
+    color: var(--ink); background: var(--neon);
+    padding: 2px 6px; margin: -2px -6px;
+  }
+
+  .build-empty {
+    padding: 28px 0;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+
+  .build-total-row {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .build-total-row .label {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .build-total {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(36px, 5vw, 64px);
+    letter-spacing: -0.02em;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .build-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .reset-btn {
+    appearance: none;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 12px 18px;
+    transition: background 220ms var(--ease-io), color 220ms var(--ease-io), border-color 220ms var(--ease-io);
+  }
+  .reset-btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+  .reset-btn.confirming { background: var(--neon); border-color: var(--neon); color: var(--ink); }
+  .reset-btn[hidden] { display: none; }
+
+  .btn-send {
+    appearance: none;
+    cursor: pointer;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--white);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    padding: 22px 28px;
+    text-transform: uppercase;
+    transition: background 320ms var(--ease-io), color 320ms var(--ease-io), border-color 320ms var(--ease-io);
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    min-width: 320px;
+  }
+  .btn-send:hover {
+    background: var(--neon);
+    border-color: var(--neon);
+    color: var(--ink);
+  }
+  .btn-send .arrow { display: inline-block; transition: transform 320ms var(--ease-io); }
+  .btn-send:hover .arrow { transform: translateX(6px); }
+  .btn-send:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-send:disabled:hover {
+    background: var(--ink); color: var(--white); border-color: var(--ink);
+  }
+
+  .send-hint {
+    margin-top: 14px;
+    font-family: var(--text);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ash);
+    max-width: 56ch;
+  }
+
+  @media (max-width: 560px) {
+    .btn-send { width: 100%; min-width: 0; }
+    .build-actions { flex-direction: column-reverse; align-items: stretch; }
+    .reset-btn { align-self: flex-start; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     COLOPHON
+     ──────────────────────────────────────────────────────────────── */
+  .colophon {
+    padding: 32px var(--pad-x);
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: 16px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .colophon a {
+    color: inherit;
+    border-bottom: 1px solid var(--rule);
+    transition: background 220ms var(--ease-io), color 220ms var(--ease-io);
+    padding: 0 2px;
+  }
+  .colophon a:hover { background: var(--neon); color: var(--ink); }
+
+  /* ────────────────────────────────────────────────────────────────
+     STICKY BUILD BAR
+     ──────────────────────────────────────────────────────────────── */
+  .build-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 70;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 16px var(--pad-x);
+    background: var(--white);
+    border-top: 1px solid var(--rule);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transform: translateY(100%);
+    transition: transform 480ms var(--ease);
+  }
+  .build-bar.show { transform: translateY(0); }
+  .build-bar .lhs { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .build-bar .bar-total {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .build-bar .bar-count { color: var(--ash); }
+  .build-bar .bar-review {
+    appearance: none;
+    cursor: pointer;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--white);
+    padding: 12px 22px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    transition: background 220ms var(--ease-io), color 220ms var(--ease-io), border-color 220ms var(--ease-io);
+  }
+  .build-bar .bar-review:hover {
+    background: var(--neon); color: var(--ink); border-color: var(--neon);
+  }
+  body.has-bar { padding-bottom: 80px; }
+
+  @media (max-width: 560px) {
+    .build-bar { grid-template-columns: 1fr auto; gap: 12px; padding: 14px var(--pad-x); }
+    .build-bar .bar-spacer { display: none; }
+    .build-bar .lhs { gap: 10px; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     CONFIRMATION OVERLAY (post-submit fallback)
+     ──────────────────────────────────────────────────────────────── */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+  }
+  .overlay.show { display: flex; }
+  .overlay-panel {
+    width: 100%;
+    max-width: 680px;
+    background: var(--white);
+    border-top: 1px solid var(--rule);
+    padding: clamp(28px, 4vw, 44px);
+    max-height: 92vh;
+    overflow-y: auto;
+    transform: translateY(24px);
+    opacity: 0;
+    transition: transform 420ms var(--ease), opacity 420ms var(--ease);
+  }
+  .overlay.show .overlay-panel { transform: none; opacity: 1; }
+
+  @media (min-width: 720px) {
+    .overlay { align-items: center; padding: 32px; }
+    .overlay-panel { border: 1px solid var(--rule); }
+  }
+
+  .overlay-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .overlay-close {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    color: var(--ash);
+    cursor: pointer;
+    padding: 0;
+    letter-spacing: 0.16em;
+  }
+  .overlay-close:hover { color: var(--ink); }
+  .overlay h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .overlay-lede {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 24px;
+    max-width: 48ch;
+  }
+  .overlay-body {
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    background: var(--bloom);
+    padding: 20px;
+    border: 1px solid var(--rule);
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 20px;
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+  .overlay-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .overlay-btn {
+    appearance: none;
+    cursor: pointer;
+    border: 1px solid var(--ink);
+    background: var(--white);
+    color: var(--ink);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    padding: 18px 22px;
+    text-transform: uppercase;
+    transition: background 220ms var(--ease-io), color 220ms var(--ease-io);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .overlay-btn.primary {
+    background: var(--ink); color: var(--white);
+  }
+  .overlay-btn:hover {
+    background: var(--neon); color: var(--ink); border-color: var(--neon);
+  }
+  .overlay-btn.copied { background: var(--neon); color: var(--ink); border-color: var(--neon); }
+  .overlay-foot {
+    margin-top: 18px;
+    font-family: var(--text);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ash);
+  }
+  .overlay-foot a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  @media (max-width: 480px) {
+    .overlay-actions { grid-template-columns: 1fr; }
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     REVEAL
+     ──────────────────────────────────────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+  }
+  .reveal.is-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ───────── Meta bar ───────── -->
+  <header class="meta-bar">
+    <a href="#top" class="j-mark" aria-label="Julian Rinaldi">J.</a>
+    <div class="meta-center" id="meta-personal" aria-live="polite">
+      <span id="meta-name"></span><span class="sep" id="meta-sep" hidden>—</span><span id="meta-date"></span>
+    </div>
+    <div class="meta-right">Package Builder · 2026/27</div>
+  </header>
+
+  <main id="top">
+
+    <!-- ───────── Cover ───────── -->
+    <section class="cover">
+      <div class="wrap">
+        <div class="cover-meta">
+          <span class="l">Julian Rinaldi Photography</span>
+          <span class="r">Private build · Sydney</span>
+        </div>
+        <h1 class="cover-headline">
+          Build<br />
+          your <span class="accent">package.</span>
+        </h1>
+        <div class="cover-foot">
+          <p class="cover-tagline">Choose one coverage, add anything that suits, and send your selection to the studio.</p>
+          <div class="cover-stamp">
+            <strong>2026 / 2027</strong><br />
+            Private build<br />
+            Edition Vol. 04
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 01 / Identity ───────── -->
+    <section id="identity">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-num">01 — You</span>
+            <h2>You</h2>
+          </div>
+          <div class="sec-meta">
+            Two fields<br />
+            Both required
+          </div>
+        </div>
+
+        <div class="identity-grid reveal">
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required placeholder="First & last" />
+          </div>
+          <div class="field">
+            <label for="f-date">Wedding date</label>
+            <input id="f-date" name="date" type="date" required />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 02 / Coverage ───────── -->
+    <section id="coverage">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-num">02 — Coverage</span>
+            <h2>Coverage</h2>
+          </div>
+          <div class="sec-meta">
+            Three tiers<br />
+            From $4,550
+          </div>
+        </div>
+
+        <div class="sec-instructions reveal">Select one — tap to choose your coverage.</div>
+
+        <div class="pkg-grid reveal">
+          <button type="button" class="pkg" data-id="pkg-1" data-name="Package 01 — 8 Hours" data-price="4550" data-sub="8 hrs · 1 photographer">
+            <div class="pkg-num">
+              <span>Package 01</span>
+              <span class="price">$4,550</span>
+            </div>
+            <h3 class="pkg-title">8 hours</h3>
+            <p class="pkg-meta">1 lead photographer</p>
+            <p class="pkg-headline">Lead coverage for a single-location, single-day commission.</p>
+            <ul class="pkg-list">
+              <li>8 Hours Coverage</li>
+              <li>1 Lead Photographer</li>
+              <li>High Resolution Images</li>
+              <li>Mix of Colour + B&amp;W</li>
+              <li>Personalised Online Gallery</li>
+            </ul>
+            <span class="pkg-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="pkg" data-id="pkg-2" data-name="Package 02 — 10 Hours" data-price="5550" data-sub="10 hrs · 2 photographers">
+            <div class="pkg-num">
+              <span>Package 02</span>
+              <span class="price">$5,550</span>
+            </div>
+            <h3 class="pkg-title">10 hours</h3>
+            <p class="pkg-meta">2 photographers*</p>
+            <p class="pkg-headline">Two angles through getting-ready and ceremony, narrowing to one through the night.</p>
+            <ul class="pkg-list">
+              <li>10 Hours Coverage</li>
+              <li>2 Photographers*</li>
+              <li>High Resolution Images</li>
+              <li>Mix of Colour + B&amp;W</li>
+              <li>Personalised Online Gallery</li>
+            </ul>
+            <p class="pkg-foot">* Second photographer to finish at end of location shoot.</p>
+            <span class="pkg-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="pkg" data-id="pkg-3" data-name="Package 03 — 12 Hours" data-price="6250" data-sub="12 hrs · 2 photographers">
+            <div class="pkg-num">
+              <span>Package 03</span>
+              <span class="price">$6,250</span>
+            </div>
+            <h3 class="pkg-title">12 hours</h3>
+            <p class="pkg-meta">2 photographers*</p>
+            <p class="pkg-headline">A full editorial day — from preparation through to the late hours of the reception.</p>
+            <ul class="pkg-list">
+              <li>12 Hours Coverage</li>
+              <li>2 Photographers*</li>
+              <li>High Resolution Images</li>
+              <li>Mix of Colour + B&amp;W</li>
+              <li>Personalised Online Gallery</li>
+            </ul>
+            <p class="pkg-foot">* Second photographer to finish at end of location shoot.</p>
+            <span class="pkg-state" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 03 / Additions ───────── -->
+    <section id="additions">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-num">03 — Additions</span>
+            <h2>Additions</h2>
+          </div>
+          <div class="sec-meta">
+            Pair with<br />any package
+          </div>
+        </div>
+
+        <div class="sec-instructions reveal">Select any — tap to add or remove.</div>
+
+        <div class="add-grid reveal">
+          <button type="button" class="add" data-id="add-preshoot" data-name="Wedding Preshoot" data-price="1250" data-sub="1–2 hrs · 1 photographer">
+            <div class="add-head">
+              <h3 class="add-name">Wedding<br />preshoot</h3>
+              <span class="add-price">$1,250</span>
+            </div>
+            <div class="add-sub">1–2 hours coverage</div>
+            <p class="add-body">A preshoot ahead of the wedding — one lead photographer, high resolution images, a mix of colour and black-and-white, delivered to a personalised online gallery.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-previews" data-name="Wedding Previews" data-price="550" data-sub="50–100 frames · 1–2 BD">
+            <div class="add-head">
+              <h3 class="add-name">Wedding<br />previews</h3>
+              <span class="add-price">$550</span>
+            </div>
+            <div class="add-sub">50–100 previews</div>
+            <p class="add-body">A studio-curated edit of 50 to 100 frames, delivered within 1–2 business days of the wedding. Selection sits with us.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-film" data-name="Film Photography" data-price="750" data-sub="Portra-400 · from $750">
+            <div class="add-head">
+              <h3 class="add-name">Film<br />photography</h3>
+              <span class="add-price">From $750</span>
+            </div>
+            <div class="add-sub">Portra-400</div>
+            <p class="add-body">A roll-by-roll edit of 25 to 50 frames, shot on film alongside the digital coverage. Pricing varies by stock.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-priority" data-name="Priority Wedding Edit" data-price="1200" data-sub="1–2 weeks turnaround">
+            <div class="add-head">
+              <h3 class="add-name">Priority<br />wedding edit</h3>
+              <span class="add-price">$1,200</span>
+            </div>
+            <div class="add-sub">1–2 weeks turnaround</div>
+            <p class="add-body">The full gallery in 1–2 weeks, in place of the standard 6–8.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-print" data-name="Framed Print" data-price="1050" data-sub='20" × 30" framed'>
+            <div class="add-head">
+              <h3 class="add-name">Framed<br />print</h3>
+              <span class="add-price">$1,050</span>
+            </div>
+            <div class="add-sub">20" × 30"</div>
+            <p class="add-body">A framed print, finished in black, wooden or white.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="add" data-id="add-album" data-name="Wedding Album" data-price="1750" data-sub="Hand-bound · foil-stamped">
+            <div class="add-head">
+              <h3 class="add-name">Wedding<br />album</h3>
+              <span class="add-price">$1,750</span>
+            </div>
+            <div class="add-sub">Hand-bound, foil-stamped</div>
+            <p class="add-body">A hand-bound album, sequenced like an editorial spread. Heavy stock, foil-stamped cover, linen slipcase.</p>
+            <span class="add-state" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 04 / Notes ───────── -->
+    <section id="notes" class="notes-wrap">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="sec-num">04 — Notes</span>
+            <h2>Notes</h2>
+          </div>
+          <div class="sec-meta">
+            Optional
+          </div>
+        </div>
+
+        <div class="field reveal">
+          <label for="f-notes">Anything else we should know?</label>
+          <textarea id="f-notes" name="notes" placeholder="Planner, references, schedule — anything that helps."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 05 / Investment ───────── -->
+    <section id="invest" class="invest">
+      <div class="wrap">
+        <h2 class="close-headline reveal">Your <span class="lift">selection.</span></h2>
+
+        <div class="reveal">
+          <div class="build-eyebrow">Your build</div>
+          <div id="summary-lines">
+            <div class="build-empty" id="empty-state">No selections yet — start with a coverage tier above.</div>
+          </div>
+          <div class="build-total-row">
+            <div class="label">Investment · AUD</div>
+            <div class="build-total" id="total">$0</div>
+          </div>
+          <div class="build-actions">
+            <button type="button" class="reset-btn" id="reset-btn" hidden>Reset selection</button>
+            <button type="button" class="btn-send" id="send-btn" disabled>
+              <span>Send selection to studio.</span>
+              <span class="arrow">→</span>
+            </button>
+          </div>
+          <p class="send-hint">Opens your email client with the selection prefilled. If nothing opens, a copy panel will appear so you can paste it to <a href="mailto:info@julianrinaldi.com.au" style="color:inherit;border-bottom:1px solid var(--rule)">info@julianrinaldi.com.au</a>.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ───────── Colophon ───────── -->
+  <footer class="colophon">
+    <span><a href="mailto:info@julianrinaldi.com.au">info@julianrinaldi.com.au</a></span>
+    <span><a href="https://instagram.com/julianrinaldiphotography" target="_blank" rel="noopener">@julianrinaldiphotography</a></span>
+    <span><a href="https://www.julianrinaldi.com.au" target="_blank" rel="noopener">julianrinaldi.com.au</a></span>
+    <span>ABN 98 119 727 056</span>
+    <span>Vol. 04 · 2026/27</span>
+  </footer>
+
+  <!-- ───────── Sticky build bar ───────── -->
+  <div class="build-bar" id="bar">
+    <div class="lhs">
+      <span class="bar-label">Build</span>
+      <span class="bar-total" id="bar-total">$0</span>
+      <span class="bar-count" id="bar-count">— select a coverage tier</span>
+    </div>
+    <div class="bar-spacer"></div>
+    <button type="button" class="bar-review" id="review-btn">
+      <span>Review</span>
+      <span aria-hidden="true">↓</span>
+    </button>
+  </div>
+
+  <!-- ───────── Confirmation overlay ───────── -->
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
+    <div class="overlay-panel">
+      <div class="overlay-head">
+        <span>Sent · 06</span>
+        <button type="button" class="overlay-close" id="overlay-close" aria-label="Close">Close ×</button>
+      </div>
+      <h3 id="overlay-title">Selection ready.</h3>
+      <p class="overlay-lede">Your email client should have opened with the message below. If nothing opened, copy it and send to <a href="mailto:info@julianrinaldi.com.au" style="color:inherit;border-bottom:1px solid var(--rule)">info@julianrinaldi.com.au</a>.</p>
+      <pre class="overlay-body" id="overlay-body"></pre>
+      <div class="overlay-actions">
+        <button type="button" class="overlay-btn" id="overlay-copy">
+          <span id="copy-label">Copy to clipboard</span>
+        </button>
+        <button type="button" class="overlay-btn primary" id="overlay-open">
+          <span>Open email again</span>
+        </button>
+      </div>
+      <p class="overlay-foot">Studio replies within one business day. <a href="mailto:info@julianrinaldi.com.au">info@julianrinaldi.com.au</a></p>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    // ──────────────────────────────────────────────────────────────
+    // STATE
+    // ──────────────────────────────────────────────────────────────
+    const STUDIO_EMAIL = 'info@julianrinaldi.com.au';
+    const STORE_KEY = 'jrp-builder-v1';
+
+    const state = {
+      pkg: null,
+      addons: new Map(),
+      name: '',
+      date: '',
+      notes: ''
+    };
+
+    const fmt = n => '$' + Math.round(n).toLocaleString('en-AU');
+
+    const save = () => {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify({
+          pkg: state.pkg,
+          addons: [...state.addons.values()],
+          name: state.name,
+          date: state.date,
+          notes: state.notes
+        }));
+      } catch(_) {}
+    };
+    const load = () => {
+      try {
+        const raw = localStorage.getItem(STORE_KEY);
+        if (!raw) return;
+        const d = JSON.parse(raw);
+        if (d.pkg) state.pkg = d.pkg;
+        if (Array.isArray(d.addons)) d.addons.forEach(a => state.addons.set(a.id, a));
+        if (d.name) state.name = d.name;
+        if (d.date) state.date = d.date;
+        if (d.notes) state.notes = d.notes;
+      } catch(_) {}
+    };
+
+    // ──────────────────────────────────────────────────────────────
+    // SELECTORS
+    // ──────────────────────────────────────────────────────────────
+    const $pkgs = document.querySelectorAll('.pkg');
+    const $adds = document.querySelectorAll('.add');
+    const $lines = document.getElementById('summary-lines');
+    const $total = document.getElementById('total');
+    const $barTotal = document.getElementById('bar-total');
+    const $barCount = document.getElementById('bar-count');
+    const $bar = document.getElementById('bar');
+    const $review = document.getElementById('review-btn');
+    const $send = document.getElementById('send-btn');
+    const $reset = document.getElementById('reset-btn');
+
+    const $fName = document.getElementById('f-name');
+    const $fDate = document.getElementById('f-date');
+    const $fNotes = document.getElementById('f-notes');
+
+    const $metaPersonal = document.getElementById('meta-personal');
+    const $metaName = document.getElementById('meta-name');
+    const $metaDate = document.getElementById('meta-date');
+    const $metaSep = document.getElementById('meta-sep');
+
+    const $overlay = document.getElementById('overlay');
+    const $overlayBody = document.getElementById('overlay-body');
+    const $overlayCopy = document.getElementById('overlay-copy');
+    const $copyLabel = document.getElementById('copy-label');
+    const $overlayOpen = document.getElementById('overlay-open');
+    const $overlayClose = document.getElementById('overlay-close');
+
+    // ──────────────────────────────────────────────────────────────
+    // FORMATTERS
+    // ──────────────────────────────────────────────────────────────
+    const monthNames = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+    const formatDateLong = (iso) => {
+      // iso = YYYY-MM-DD
+      if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return '';
+      const [y,m,d] = iso.split('-').map(Number);
+      return `${String(d).padStart(2,'0')} ${monthNames[m-1]} ${y}`;
+    };
+
+    // ──────────────────────────────────────────────────────────────
+    // ANIMATED COUNTER
+    // ──────────────────────────────────────────────────────────────
+    let lastTotal = 0;
+    const setTotalText = (v) => {
+      $total.textContent = fmt(v);
+      $barTotal.textContent = fmt(v);
+    };
+    const animateTotal = (next) => {
+      const start = lastTotal;
+      const delta = next - start;
+      if (delta === 0 || document.hidden) {
+        setTotalText(next);
+        lastTotal = next;
+        return;
+      }
+      const dur = 480;
+      const t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setTotalText(start + delta * eased);
+        if (p < 1) requestAnimationFrame(tick);
+        else lastTotal = next;
+      };
+      requestAnimationFrame(tick);
+    };
+
+    // ──────────────────────────────────────────────────────────────
+    // PERSONALISATION HEADER
+    // ──────────────────────────────────────────────────────────────
+    const renderMeta = () => {
+      const name = (state.name || '').trim().toUpperCase();
+      const dateLong = formatDateLong(state.date);
+      $metaName.textContent = name ? `Selection for ${name}` : '';
+      $metaDate.textContent = dateLong || '';
+      const hasBoth = !!name && !!dateLong;
+      $metaSep.hidden = !hasBoth;
+      const live = !!name || !!dateLong;
+      $metaPersonal.classList.toggle('live', live);
+    };
+
+    // ──────────────────────────────────────────────────────────────
+    // RENDER SUMMARY + STATES
+    // ──────────────────────────────────────────────────────────────
+    const lineHTML = (kind, item) => `
+      <div class="build-line">
+        <div class="name-cell">
+          <span>${item.name}</span>
+          <span class="name-sub">${item.sub || ''}</span>
+        </div>
+        <span class="price">${fmt(item.price)}</span>
+        <button type="button" class="remove" data-remove="${item.id}" data-kind="${kind}" aria-label="Remove ${item.name}">Remove</button>
+      </div>`;
+
+    const render = () => {
+      $pkgs.forEach(b => b.classList.toggle('selected', state.pkg && b.dataset.id === state.pkg.id));
+      $adds.forEach(b => b.classList.toggle('selected', state.addons.has(b.dataset.id)));
+
+      const rows = [];
+      if (state.pkg) rows.push(lineHTML('package', state.pkg));
+      [...state.addons.values()].forEach(a => rows.push(lineHTML('addon', a)));
+
+      $lines.innerHTML = rows.length
+        ? rows.join('')
+        : '<div class="build-empty" id="empty-state">No selections yet — start with a coverage tier above.</div>';
+
+      $lines.querySelectorAll('[data-remove]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.remove;
+          if (btn.dataset.kind === 'package') state.pkg = null;
+          else state.addons.delete(id);
+          save(); render();
+        });
+      });
+
+      let total = 0;
+      if (state.pkg) total += state.pkg.price;
+      state.addons.forEach(a => total += a.price);
+      animateTotal(total);
+
+      const count = (state.pkg ? 1 : 0) + state.addons.size;
+      $barCount.textContent = state.pkg
+        ? (state.addons.size ? `${state.addons.size} addition${state.addons.size > 1 ? 's' : ''}` : 'coverage selected')
+        : '— select a coverage tier';
+      $bar.classList.toggle('show', count > 0);
+      document.body.classList.toggle('has-bar', count > 0);
+
+      // Send enabled when: package selected AND name AND date present
+      const ready = !!state.pkg && !!state.name.trim() && !!state.date;
+      $send.disabled = !ready;
+
+      const hasAny = !!state.pkg || state.addons.size > 0;
+      $reset.hidden = !hasAny;
+      if (!hasAny) clearResetConfirm();
+    };
+
+    // ──────────────────────────────────────────────────────────────
+    // CARD SELECTION
+    // ──────────────────────────────────────────────────────────────
+    $pkgs.forEach(b => b.addEventListener('click', () => {
+      const id = b.dataset.id;
+      if (state.pkg && state.pkg.id === id) {
+        state.pkg = null;
+      } else {
+        state.pkg = {
+          id,
+          name: b.dataset.name,
+          price: parseFloat(b.dataset.price),
+          sub: b.dataset.sub
+        };
+      }
+      save(); render();
+    }));
+
+    $adds.forEach(b => b.addEventListener('click', () => {
+      const id = b.dataset.id;
+      if (state.addons.has(id)) state.addons.delete(id);
+      else state.addons.set(id, {
+        id,
+        name: b.dataset.name,
+        price: parseFloat(b.dataset.price),
+        sub: b.dataset.sub
+      });
+      save(); render();
+    }));
+
+    // ──────────────────────────────────────────────────────────────
+    // FIELD INPUTS
+    // ──────────────────────────────────────────────────────────────
+    $fName.addEventListener('input', (e) => {
+      state.name = e.target.value;
+      renderMeta(); save(); render();
+    });
+    $fDate.addEventListener('input', (e) => {
+      state.date = e.target.value;
+      renderMeta(); save(); render();
+    });
+    $fNotes.addEventListener('input', (e) => {
+      state.notes = e.target.value;
+      save();
+    });
+
+    // ──────────────────────────────────────────────────────────────
+    // REVIEW BUTTON
+    // ──────────────────────────────────────────────────────────────
+    $review.addEventListener('click', () => {
+      document.getElementById('invest').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // ──────────────────────────────────────────────────────────────
+    // RESET — two-tap confirm
+    // ──────────────────────────────────────────────────────────────
+    let resetTimer = null;
+    function clearResetConfirm() {
+      if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+      $reset.classList.remove('confirming');
+      $reset.textContent = 'Reset selection';
+    }
+    $reset.addEventListener('click', () => {
+      if ($reset.classList.contains('confirming')) {
+        state.pkg = null;
+        state.addons.clear();
+        save();
+        clearResetConfirm();
+        lastTotal = 0;
+        render();
+      } else {
+        $reset.classList.add('confirming');
+        $reset.textContent = 'Tap again to confirm';
+        if (resetTimer) clearTimeout(resetTimer);
+        resetTimer = setTimeout(clearResetConfirm, 3000);
+      }
+    });
+
+    // ──────────────────────────────────────────────────────────────
+    // BUILD EMAIL BODY
+    // ──────────────────────────────────────────────────────────────
+    const buildEmail = () => {
+      const name = state.name.trim();
+      const dateLong = formatDateLong(state.date);
+      const surname = name.split(/\s+/).pop().toUpperCase();
+      const subject = `PACKAGE SELECTION — ${surname}, ${dateLong}`;
+
+      const lines = [];
+      lines.push('Hi Julian,');
+      lines.push('');
+      lines.push('Below is our package selection from the studio builder.');
+      lines.push('');
+      lines.push('COVERAGE');
+      lines.push(`${state.pkg.name.toUpperCase()} — ${fmt(state.pkg.price)}`);
+
+      if (state.addons.size) {
+        lines.push('');
+        lines.push('ADDITIONS');
+        state.addons.forEach(a => {
+          lines.push(`• ${a.name} — ${fmt(a.price)}`);
+        });
+      }
+
+      let total = state.pkg.price;
+      state.addons.forEach(a => total += a.price);
+      lines.push('');
+      lines.push('INVESTMENT');
+      lines.push(fmt(total));
+
+      if (state.notes && state.notes.trim()) {
+        lines.push('');
+        lines.push('NOTES');
+        lines.push(state.notes.trim());
+      }
+
+      lines.push('');
+      lines.push('Looking forward to next steps.');
+      lines.push('');
+      lines.push(`— ${name}`);
+      lines.push(`Wedding date: ${dateLong}`);
+
+      const body = lines.join('\r\n');
+      const mailto = 'mailto:' + STUDIO_EMAIL
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+      return { subject, body, mailto };
+    };
+
+    // ──────────────────────────────────────────────────────────────
+    // SEND
+    // ──────────────────────────────────────────────────────────────
+    let lastMailto = '';
+    let lastBody = '';
+    const fireSend = () => {
+      if (!state.pkg) return;
+      if (!state.name.trim() || !state.date) {
+        if (!state.name.trim()) $fName.focus();
+        else $fDate.focus();
+        return;
+      }
+      const { body, mailto } = buildEmail();
+      lastMailto = mailto;
+      lastBody = body;
+      $overlayBody.textContent = body;
+      $overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      // Fire mailto after a tick so the overlay is visible if mailto silently fails
+      setTimeout(() => { window.location.href = mailto; }, 80);
+    };
+    $send.addEventListener('click', fireSend);
+
+    // Overlay actions
+    $overlayClose.addEventListener('click', () => {
+      $overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    });
+    $overlay.addEventListener('click', (e) => {
+      if (e.target === $overlay) {
+        $overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && $overlay.classList.contains('show')) {
+        $overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    });
+    $overlayOpen.addEventListener('click', () => {
+      if (lastMailto) window.location.href = lastMailto;
+    });
+    $overlayCopy.addEventListener('click', async () => {
+      const text = `To: ${STUDIO_EMAIL}\n\n${lastBody}`;
+      let ok = false;
+      try {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      } catch(_) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch(_) { ok = false; }
+      }
+      if (ok) {
+        $overlayCopy.classList.add('copied');
+        $copyLabel.textContent = '✓ Copied to clipboard';
+        setTimeout(() => {
+          $overlayCopy.classList.remove('copied');
+          $copyLabel.textContent = 'Copy to clipboard';
+        }, 2400);
+      } else {
+        $copyLabel.textContent = 'Select & copy manually';
+      }
+    });
+
+    // ──────────────────────────────────────────────────────────────
+    // REVEAL-ON-SCROLL
+    // ──────────────────────────────────────────────────────────────
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-in'));
+    }
+
+    // ──────────────────────────────────────────────────────────────
+    // INIT
+    // ──────────────────────────────────────────────────────────────
+    load();
+    if (state.name) $fName.value = state.name;
+    if (state.date) $fDate.value = state.date;
+    if (state.notes) $fNotes.value = state.notes;
+    renderMeta();
+    render();
+  })();
+  </script>
+</body>
+</html>
